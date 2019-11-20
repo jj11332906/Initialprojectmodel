@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.2.xsd"
+       default-lazy-init="true">
+
+    <bean class="com.wkj.project.entity.SysAuthority">
+        <property name="authority" value="sysadmin"/>
+        <property name="description" value="管理员"/>
+        <property name="children">
+            <list>
+                <bean class="com.wkj.project.entity.SysAuthority">
+                    <property name="authority" value="userAccountMng"/>
+                    <property name="description" value="账号管理"/>
+                    <property name="children">
+                        <list>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="accountRead"/>
+                                <property name="description" value="账号读取"/>
+                            </bean>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="accountDelete"/>
+                                <property name="description" value="账号删除"/>
+                            </bean>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="accountAdd"/>
+                                <property name="description" value="账号添加"/>
+                            </bean>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="accountUpdate"/>
+                                <property name="description" value="账号修改"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.wkj.project.entity.SysAuthority">
+                    <property name="authority" value="roleMng"/>
+                    <property name="description" value="角色管理"/>
+                    <property name="children">
+                        <list>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="roleRead"/>
+                                <property name="description" value="角色读取"/>
+                            </bean>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="roleDelete"/>
+                                <property name="description" value="角色删除"/>
+                            </bean>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="roleAdd"/>
+                                <property name="description" value="角色添加"/>
+                            </bean>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="roleUpdate"/>
+                                <property name="description" value="角色修改"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.wkj.project.entity.SysAuthority">
+                    <property name="authority" value="articleMng"/>
+                    <property name="description" value="文章资讯管理"/>
+                    <property name="children">
+                        <list>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="category"/>
+                                <property name="description" value="资讯分类管理"/>
+                            </bean>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="article"/>
+                                <property name="description" value="资讯管理"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

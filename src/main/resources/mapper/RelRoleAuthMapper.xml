@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wkj.project.mapper.RelRoleAuthMapper">
+
+
+    <select id="findRelRoleAuthsByRoleIds" resultType="Map">
+        SELECT
+          *
+          FROM rel_role_auth rra
+          where 1=1
+        <if test='roleIds != null'>
+            and rra.role_id in #{roleIds}
+        </if>
+    </select>
+
+    <select id="findRelRoleAuthsByUsername" resultType="Map">
+        SELECT
+        su.username 'username',
+        su.password 'password',
+        rra.authority 'authority'
+        FROM rel_role_auth rra
+        left join rel_user_role rur on rra.role_id = rur.role_id
+        left join sys_user su  on rur.user_id = su.id
+        where 1=1
+        <if test='username != null and username != ""'>
+            and su.username = #{username}
+        </if>
+    </select>
+
+</mapper>
