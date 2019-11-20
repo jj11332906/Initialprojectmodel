@@ -3,7 +3,7 @@
 <mapper namespace="com.wkj.project.mapper.RelRoleAuthMapper">
 
 
-    <select id="findRelRoleAuthsByRoleIds" resultType="Map">
+    <select id="findRelRoleAuthsByRoleIds" resultType="com.wkj.project.entity.RelRoleAuth">
         SELECT
           *
           FROM rel_role_auth rra
