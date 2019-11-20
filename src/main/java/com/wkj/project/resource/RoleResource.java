@@ -25,10 +25,10 @@ public class RoleResource {
     @Autowired
     SysRoleService sysRoleService;
 
-    @GetMapping("get")
+    @GetMapping("findAll")
     @ResponseBody
     @ApiOperation(value = "获取角色数据")
-    public Result list(
+    public Result findAll(
     ) {
         log.info("获取角色数据");
         List<SysRoleDTO> sysRoleDTOS = sysRoleService.findAll();

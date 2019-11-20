@@ -27,7 +27,7 @@ public class SysRoleService {
         List<SysRole> sysRoles = sysRoleMapper.findAll();
         List<SysRoleDTO> sysRoleDTOS = new ArrayList<>();
         for(SysRole role : sysRoles) {
-            List<RelRoleAuth> relRoleAuths = relRoleAuthMapper.findRelRoleAuthsByRoleIds(role.getId().toString());
+            List<RelRoleAuth> relRoleAuths = relRoleAuthMapper.findRelRoleAuthsByRoleId(role.getId().toString());
 
             List<SysAuthorityDTO> sysAuthorityDTOS = new ArrayList<>();
             for(RelRoleAuth relRoleAuth : relRoleAuths){

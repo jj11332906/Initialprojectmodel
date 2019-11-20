@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface RelRoleAuthMapper {
 
-    List<RelRoleAuth> findRelRoleAuthsByRoleIds(@Param("roleIds") String roleIds);
+    List<RelRoleAuth> findRelRoleAuthsByRoleId(@Param("roleId") String roleId);
 
     List<Map> findRelRoleAuthsByUsername(@Param("username") String username);
 

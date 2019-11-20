@@ -3,13 +3,13 @@
 <mapper namespace="com.wkj.project.mapper.RelRoleAuthMapper">
 
 
-    <select id="findRelRoleAuthsByRoleIds" resultType="com.wkj.project.entity.RelRoleAuth">
+    <select id="findRelRoleAuthsByRoleId" resultType="com.wkj.project.entity.RelRoleAuth">
         SELECT
           *
           FROM rel_role_auth rra
           where 1=1
-        <if test='roleIds != null'>
-            and rra.role_id in #{roleIds}
+        <if test='roleId != null'>
+            and rra.role_id = #{roleId}
         </if>
     </select>
 
