@@ -1,8 +1,11 @@
 package com.wkj.project.dto;
 
+import com.wkj.project.entity.SysAuthority;
+import com.wkj.project.entity.SysRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
@@ -24,5 +27,11 @@ public class SysRoleDTO {
      */
     private List<SysAuthorityDTO> authorityDTOS;
 
-
+    public static SysRoleDTO convert(SysRole entity,List<SysAuthorityDTO> sysAuthorityDTOS){
+        SysRoleDTO dto = new SysRoleDTO();
+        dto.setId(entity.getId());
+        dto.setName(entity.getName());
+        dto.setAuthorityDTOS(sysAuthorityDTOS);
+        return dto;
+    }
 }

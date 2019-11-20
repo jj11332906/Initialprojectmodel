@@ -1,5 +1,6 @@
 package com.wkj.project.service;
 
+import com.wkj.project.dto.SysAuthorityDTO;
 import com.wkj.project.dto.SysRoleDTO;
 import com.wkj.project.entity.RelRoleAuth;
 import com.wkj.project.entity.SysRole;
@@ -18,6 +19,8 @@ public class SysRoleService {
     @Autowired
     SysRoleMapper sysRoleMapper;
     @Autowired
+    AuthorityService authorityService;
+    @Autowired
     RelRoleAuthMapper relRoleAuthMapper;
 
     public List<SysRoleDTO> findAll() {
@@ -26,6 +29,13 @@ public class SysRoleService {
         for(SysRole role : sysRoles) {
             List<RelRoleAuth> relRoleAuths = relRoleAuthMapper.findRelRoleAuthsByRoleIds(role.getId().toString());
 
+            List<SysAuthorityDTO> sysAuthorityDTOS = new ArrayList<>();
+            for(RelRoleAuth relRoleAuth : relRoleAuths){
+                SysAuthorityDTO sa = authorityService.findAuthorityDTOByAuthorityCode(relRoleAuth.getAuthority());
+                sysAuthorityDTOS.add(sa);
+            }
+            SysRoleDTO sysRoleDTO = SysRoleDTO.convert(role,sysAuthorityDTOS);
+            sysRoleDTOS.add(sysRoleDTO);
         }
         return sysRoleDTOS;
     }

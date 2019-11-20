@@ -2,8 +2,10 @@ package com.wkj.project.resource;
 
 
 import com.wkj.project.dto.SysAuthorityDTO;
+import com.wkj.project.dto.SysRoleDTO;
 import com.wkj.project.entity.SysAuthority;
 import com.wkj.project.service.AuthorityService;
+import com.wkj.project.service.SysRoleService;
 import com.wkj.project.util.ErrorCode;
 import com.wkj.project.util.Result;
 import io.swagger.annotations.Api;
@@ -26,7 +28,7 @@ import java.util.List;
 public class RoleResource {
 
     @Autowired
-    AuthorityService authorityService;
+    SysRoleService sysRoleService;
 
     @GetMapping("get")
     @ResponseBody
@@ -34,9 +36,8 @@ public class RoleResource {
     public Result list(
     ) {
         log.info("获取角色数据");
-
-
-        return Result.getResult(ErrorCode.OP_SUCCESS, null);
+        List<SysRoleDTO> sysRoleDTOS= sysRoleService.findAll();
+        return Result.getResult(ErrorCode.OP_SUCCESS, sysRoleDTOS);
     }
 
 }
