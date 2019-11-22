@@ -40,4 +40,7 @@ public class SysRoleService {
         return sysRoleDTOS;
     }
 
+    public Long insert(SysRole sysRole) {
+        return sysRoleMapper.insert(sysRole);
+    }
 }

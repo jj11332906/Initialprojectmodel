@@ -14,5 +14,9 @@ public class SysRole {
      * 角色名
      */
     private String name;
+    /**
+     * 角色描述
+     */
+    private String description;
 
 }

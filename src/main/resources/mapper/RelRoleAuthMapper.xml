@@ -27,4 +27,13 @@
         </if>
     </select>
 
+
+    <!--一次插入多条记录-->
+    <insert id="mulInsert" parameterType="java.util.ArrayList">
+        insert into rel_role_auth (role_id,authority) VALUES
+        <foreach collection="list" item="roleAuth"  separator=",">
+            (#{roleAuth.roleId},#{roleAuth.authority})
+        </foreach>
+    </insert>
+
 </mapper>

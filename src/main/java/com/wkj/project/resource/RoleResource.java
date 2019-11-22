@@ -2,6 +2,9 @@ package com.wkj.project.resource;
 
 
 import com.wkj.project.dto.SysRoleDTO;
+import com.wkj.project.entity.RelRoleAuth;
+import com.wkj.project.entity.SysRole;
+import com.wkj.project.service.SysRoleAuthService;
 import com.wkj.project.service.SysRoleService;
 import com.wkj.project.util.ErrorCode;
 import com.wkj.project.util.Result;
@@ -9,11 +12,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,6 +26,9 @@ public class RoleResource {
     @Autowired
     SysRoleService sysRoleService;
 
+    @Autowired
+    SysRoleAuthService sysRoleAuthService;
+
     @GetMapping("findAll")
     @ResponseBody
     @ApiOperation(value = "获取角色数据")
@@ -33,6 +37,35 @@ public class RoleResource {
         log.info("获取角色数据");
         List<SysRoleDTO> sysRoleDTOS = sysRoleService.findAll();
         return Result.getResult(ErrorCode.OP_SUCCESS, sysRoleDTOS);
+    }
+
+    @PostMapping("add")
+    @ResponseBody
+    @ApiOperation(value = "添加角色")
+    public Result add(
+            String roleName,
+            String roleDesc,
+            String checkedTags
+    ) {
+        log.info("添加角色");
+        log.info("roleName："+roleName);
+        log.info("roleDesc："+roleDesc);
+        log.info("checkedTags:"+checkedTags);
+        SysRole sysRole =new SysRole();
+        sysRole.setName(roleName);
+        sysRole.setDescription(roleDesc);
+        sysRoleService.insert(sysRole);
+        String[] ct = checkedTags.split(",");
+        // TODO 批量插入角色权限关系数据
+        List<RelRoleAuth> relRoleAuths = new ArrayList<>();
+        for(String auth:ct){
+            RelRoleAuth relRoleAuth = new RelRoleAuth();
+            relRoleAuth.setRoleId(sysRole.getId());
+            relRoleAuth.setAuthority(auth);
+            relRoleAuths.add(relRoleAuth);
+        }
+        sysRoleAuthService.mulInsert(relRoleAuths);
+        return Result.getResult(ErrorCode.OP_SUCCESS, sysRole);
     }
 
 }

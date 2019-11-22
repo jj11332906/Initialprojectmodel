@@ -8,4 +8,5 @@ public interface SysRoleMapper {
 
     List<SysRole> findAll();
 
+    Long insert(SysRole sysRole);
 }

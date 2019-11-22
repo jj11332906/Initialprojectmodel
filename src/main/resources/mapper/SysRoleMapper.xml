@@ -9,4 +9,8 @@
           FROM sys_role sr
     </select>
 
+    <insert id="insert" parameterType="com.wkj.project.entity.SysRole" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_role(name, description) values(#{name}, #{description})
+    </insert>
+
 </mapper>
