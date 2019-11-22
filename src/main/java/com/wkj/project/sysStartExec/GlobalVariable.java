@@ -28,7 +28,7 @@ public class GlobalVariable implements ApplicationRunner {
         List<SysAuthority> authoritys = getChildAuthorityByParent(sysAuthority);
         sysAuthorityMap = new HashMap<>();
         for (SysAuthority authority : authoritys) {
-            log.info(authority.authority);
+//            log.info(authority.authority);
             sysAuthorityMap.put(authority.authority, authority);
         }
 
