@@ -10,10 +10,14 @@ import com.wkj.project.util.ErrorCode;
 import com.wkj.project.util.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +41,36 @@ public class RoleResource {
         log.info("获取角色数据");
         List<SysRoleDTO> sysRoleDTOS = sysRoleService.findAll();
         return Result.getResult(ErrorCode.OP_SUCCESS, sysRoleDTOS);
+    }
+
+//    @PutMapping("role/{id}")
+//    @ApiOperation(value = "修改活动信息")
+//    public Result update(
+//            @ModelAttribute("Activity") @Valid ActivityForm form, BindingResult result,
+//            @PathVariable @ApiParam("角色id") Long id
+//    ) {
+//        if (result.hasErrors()) {
+//            throw new ApiValidationException(result);
+//        }
+//        return ResponseEntity.ok(ActivityDTO.convert(service.update(form, id)));
+//    }
+
+//    @DeleteMapping("activity/{id}")
+//    @ApiOperation(value = "根据id删除活动信息")
+//    public ResponseEntity delete(
+//            @PathVariable @ApiParam("活动id") Long id
+//    ) {
+//        service.delete(id);
+//        return ResponseEntity.ok().build();
+//    }
+
+    @GetMapping("find/{id}")
+    @ApiOperation(value = "根据id获取角色信息")
+    public Result get(
+            @PathVariable @ApiParam("角色id") Long id
+    ) {
+        SysRoleDTO entity = sysRoleService.findByIsDeletedIsFalseAndId(id);
+        return Result.getResult(ErrorCode.OP_SUCCESS, entity);
     }
 
     @PostMapping("add")

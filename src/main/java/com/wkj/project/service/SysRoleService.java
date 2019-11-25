@@ -43,4 +43,22 @@ public class SysRoleService {
     public Long insert(SysRole sysRole) {
         return sysRoleMapper.insert(sysRole);
     }
+
+    public SysRoleDTO findByIsDeletedIsFalseAndId(Long id) {
+
+        SysRole role = sysRoleMapper.findByIsDeletedIsFalseAndId(id);
+
+        List<RelRoleAuth> relRoleAuths = relRoleAuthMapper.findRelRoleAuthsByRoleId(role.getId().toString());
+
+        List<SysAuthorityDTO> sysAuthorityDTOS = new ArrayList<>();
+
+        for(RelRoleAuth relRoleAuth : relRoleAuths){
+            SysAuthorityDTO sa = authorityService.findAuthorityDTOByAuthorityCode(relRoleAuth.getAuthority());
+            sysAuthorityDTOS.add(sa);
+        }
+
+        SysRoleDTO sysRoleDTO = SysRoleDTO.convert(role,sysAuthorityDTOS);
+
+        return sysRoleDTO;
+    }
 }
