@@ -15,4 +15,5 @@ public interface RelRoleAuthMapper {
 
     void mulInsert(@Param("list") List<RelRoleAuth> list);
 
+    void deleteRelationByRoleId(@Param("roleId") Long roleId);
 }

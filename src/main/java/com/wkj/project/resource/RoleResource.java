@@ -43,17 +43,39 @@ public class RoleResource {
         return Result.getResult(ErrorCode.OP_SUCCESS, sysRoleDTOS);
     }
 
-//    @PutMapping("role/{id}")
-//    @ApiOperation(value = "修改活动信息")
-//    public Result update(
-//            @ModelAttribute("Activity") @Valid ActivityForm form, BindingResult result,
-//            @PathVariable @ApiParam("角色id") Long id
-//    ) {
-//        if (result.hasErrors()) {
-//            throw new ApiValidationException(result);
-//        }
-//        return ResponseEntity.ok(ActivityDTO.convert(service.update(form, id)));
-//    }
+    @PutMapping("role/{id}")
+    @ApiOperation(value = "修改活动信息")
+    public Result update(
+            String roleId,
+            String roleName,
+            String roleDesc,
+            String checkedTags
+    ) {
+        log.info("修改角色");
+        log.info("roleId："+roleId);
+        log.info("roleName："+roleName);
+        log.info("roleDesc："+roleDesc);
+        log.info("checkedTags:"+checkedTags);
+        // TODO 修改角色基础信息
+        SysRole sysRole = sysRoleService.findById(Long.valueOf(roleId));
+        sysRole.setName(roleName);
+        sysRole.setDescription(roleDesc);
+        sysRoleService.update(sysRole);
+        String[] ct = checkedTags.split(",");
+        // TODO 删除角色权限
+        sysRoleAuthService.deleteRelationByRole(sysRole);
+
+        // TODO 批量插入角色权限关系数据
+        List<RelRoleAuth> relRoleAuths = new ArrayList<>();
+        for(String auth:ct){
+            RelRoleAuth relRoleAuth = new RelRoleAuth();
+            relRoleAuth.setRoleId(sysRole.getId());
+            relRoleAuth.setAuthority(auth);
+            relRoleAuths.add(relRoleAuth);
+        }
+        sysRoleAuthService.mulInsert(relRoleAuths);
+        return Result.getResult(ErrorCode.OP_SUCCESS, sysRole);
+    }
 
 //    @DeleteMapping("activity/{id}")
 //    @ApiOperation(value = "根据id删除活动信息")

@@ -36,4 +36,8 @@
         </foreach>
     </insert>
 
+    <delete id="deleteRelationByRoleId" parameterType="java.lang.Long">
+        DELETE FROM rel_role_auth WHERE role_id = #{roleId}
+    </delete>
+
 </mapper>

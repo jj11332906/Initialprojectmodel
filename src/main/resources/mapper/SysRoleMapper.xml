@@ -19,4 +19,8 @@
         insert into sys_role(name, description) values(#{name}, #{description})
     </insert>
 
+    <update id="update" parameterType="com.wkj.project.entity.SysRole">
+        update sys_role SET name = #{name}, description = #{description} where id= #{id}
+    </update>
+
 </mapper>

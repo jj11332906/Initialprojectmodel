@@ -61,4 +61,16 @@ public class SysRoleService {
 
         return sysRoleDTO;
     }
+
+    public SysRole findById(Long id) {
+
+        SysRole role = sysRoleMapper.findByIsDeletedIsFalseAndId(id);
+
+
+        return role;
+    }
+
+    public void update(SysRole sysRole) {
+        sysRoleMapper.update(sysRole);
+    }
 }

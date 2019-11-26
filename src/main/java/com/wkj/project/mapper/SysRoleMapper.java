@@ -12,4 +12,6 @@ public interface SysRoleMapper {
     Long insert(SysRole sysRole);
 
     SysRole findByIsDeletedIsFalseAndId(@Param("id") Long id);
+
+    void update(SysRole sysRole);
 }
