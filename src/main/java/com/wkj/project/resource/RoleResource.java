@@ -43,8 +43,8 @@ public class RoleResource {
         return Result.getResult(ErrorCode.OP_SUCCESS, sysRoleDTOS);
     }
 
-    @PutMapping("role/{id}")
-    @ApiOperation(value = "修改活动信息")
+    @PutMapping("put")
+    @ApiOperation(value = "修改角色信息")
     public Result update(
             String roleId,
             String roleName,
@@ -77,14 +77,20 @@ public class RoleResource {
         return Result.getResult(ErrorCode.OP_SUCCESS, sysRole);
     }
 
-//    @DeleteMapping("activity/{id}")
-//    @ApiOperation(value = "根据id删除活动信息")
-//    public ResponseEntity delete(
-//            @PathVariable @ApiParam("活动id") Long id
-//    ) {
-//        service.delete(id);
-//        return ResponseEntity.ok().build();
-//    }
+    @PutMapping("deleteRole")
+    @ApiOperation(value = "删除角色信息")
+    public Result deleteRole(
+            String roleId
+    ) {
+        log.info("删除角色");
+        log.info("roleId："+roleId);
+        // TODO 修改角色基础信息
+        SysRole sysRole = sysRoleService.findById(Long.valueOf(roleId));
+
+        sysRoleService.deleteRole(sysRole);
+
+        return Result.getResult(ErrorCode.OP_SUCCESS, sysRole);
+    }
 
     @GetMapping("find/{id}")
     @ApiOperation(value = "根据id获取角色信息")

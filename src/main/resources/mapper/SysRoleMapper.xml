@@ -6,7 +6,7 @@
     <select id="findAll" resultType="com.wkj.project.entity.SysRole">
         SELECT
           *
-          FROM sys_role sr
+          FROM sys_role sr where is_enabled = true and is_deleted = FALSE
     </select>
     <select id="findByIsDeletedIsFalseAndId" resultType="com.wkj.project.entity.SysRole">
         SELECT
@@ -14,6 +14,7 @@
         FROM sys_role sr
         where 1=1
             and sr.id = #{id}
+            and is_enabled = true and is_deleted = FALSE
     </select>
     <insert id="insert" parameterType="com.wkj.project.entity.SysRole" useGeneratedKeys="true" keyProperty="id">
         insert into sys_role(name, description) values(#{name}, #{description})
@@ -21,6 +22,9 @@
 
     <update id="update" parameterType="com.wkj.project.entity.SysRole">
         update sys_role SET name = #{name}, description = #{description} where id= #{id}
+    </update>
+    <update id="deleteRole" parameterType="com.wkj.project.entity.SysRole">
+        update sys_role SET is_deleted = true, is_enabled = false where id= #{id}
     </update>
 
 </mapper>

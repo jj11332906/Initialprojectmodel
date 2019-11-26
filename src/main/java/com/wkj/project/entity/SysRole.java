@@ -4,7 +4,7 @@ package com.wkj.project.entity;
 import lombok.Data;
 
 @Data
-public class SysRole {
+public class SysRole extends BaseEntity {
 
     /**
      * id
@@ -18,5 +18,6 @@ public class SysRole {
      * 角色描述
      */
     private String description;
+
 
 }

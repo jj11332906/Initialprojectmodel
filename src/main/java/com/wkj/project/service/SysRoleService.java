@@ -73,4 +73,9 @@ public class SysRoleService {
     public void update(SysRole sysRole) {
         sysRoleMapper.update(sysRole);
     }
+
+    public void deleteRole(SysRole sysRole) {
+
+            sysRoleMapper.deleteRole(sysRole);
+    }
 }
