@@ -16,4 +16,6 @@ public interface SysRoleMapper {
     void update(SysRole sysRole);
 
     void deleteRole(SysRole sysRole);
+
+    List<SysRole> query(@Param("q") String q);
 }

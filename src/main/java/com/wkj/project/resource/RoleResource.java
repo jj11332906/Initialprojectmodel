@@ -43,6 +43,24 @@ public class RoleResource {
         return Result.getResult(ErrorCode.OP_SUCCESS, sysRoleDTOS);
     }
 
+    @GetMapping("query/{q}")
+    @ResponseBody
+    @ApiOperation(value =
+            "根据关键字查询角色数据")
+    public Result query(
+            @PathVariable @ApiParam("角色名称") String q
+    ) {
+        log.info("根据关键字查询角色数据");
+        log.info("关键字："+q);
+        List<SysRoleDTO> sysRoleDTOS = new ArrayList<>();
+        if("all".equals(q)){
+            sysRoleDTOS = sysRoleService.findAll();
+        }else {
+            sysRoleDTOS = sysRoleService.query(q);
+        }
+        return Result.getResult(ErrorCode.OP_SUCCESS, sysRoleDTOS);
+    }
+
     @PutMapping("put")
     @ApiOperation(value = "修改角色信息")
     public Result update(

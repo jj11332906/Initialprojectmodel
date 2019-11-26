@@ -7,6 +7,17 @@
         SELECT
           *
           FROM sys_role sr where is_enabled = true and is_deleted = FALSE
+
+    </select>
+    <select id="query" resultType="com.wkj.project.entity.SysRole">
+        SELECT
+        *
+        FROM sys_role sr
+        <where>
+            is_enabled = true
+            and is_deleted = FALSE
+            <include refid="common_where_if"/>
+        </where>
     </select>
     <select id="findByIsDeletedIsFalseAndId" resultType="com.wkj.project.entity.SysRole">
         SELECT
@@ -26,5 +37,12 @@
     <update id="deleteRole" parameterType="com.wkj.project.entity.SysRole">
         update sys_role SET is_deleted = true, is_enabled = false where id= #{id}
     </update>
+
+    <sql id="common_where_if">
+        <if test="q != null and q != ''">
+            AND sr.name like concat('%',#{q},'%')
+        </if>
+
+    </sql>
 
 </mapper>
