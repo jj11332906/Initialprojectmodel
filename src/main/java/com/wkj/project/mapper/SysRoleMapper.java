@@ -1,10 +1,13 @@
 package com.wkj.project.mapper;
 
+import com.github.pagehelper.Page;
 import com.wkj.project.entity.SysRole;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+@Mapper
 public interface SysRoleMapper {
 
     List<SysRole> findAll();
@@ -17,5 +20,5 @@ public interface SysRoleMapper {
 
     void deleteRole(SysRole sysRole);
 
-    List<SysRole> query(@Param("q") String q);
+    Page<SysRole> query(@Param("q") String q);
 }

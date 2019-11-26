@@ -9,10 +9,10 @@
           FROM sys_role sr where is_enabled = true and is_deleted = FALSE
 
     </select>
-    <select id="query" resultType="com.wkj.project.entity.SysRole">
+    <select id="query" resultType="com.wkj.project.entity.SysRole" parameterType="com.github.pagehelper.Page">
         SELECT
         *
-        FROM sys_role sr
+        FROM sys_role
         <where>
             is_enabled = true
             and is_deleted = FALSE
@@ -39,7 +39,7 @@
     </update>
 
     <sql id="common_where_if">
-        <if test="q != null and q != ''">
+        <if test="q != null and q != ''and q != 'all'">
             AND sr.name like concat('%',#{q},'%')
         </if>
 

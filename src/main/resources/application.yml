@@ -50,6 +50,11 @@ spring:
     host: 127.0.0.1
     port: 25000
     database: 13
-
+# pagehelper
+pagehelper:
+    helper-dialect: mysql
+    reasonable: true
+    support-methods-arguments: true
+    params: count=countSql
 wkj.web.demo:
   url: http://localhost:8092

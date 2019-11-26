@@ -1,6 +1,7 @@
 package com.wkj.project.resource;
 
 
+import com.github.pagehelper.Page;
 import com.wkj.project.dto.SysRoleDTO;
 import com.wkj.project.entity.RelRoleAuth;
 import com.wkj.project.entity.SysRole;
@@ -13,11 +14,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,20 +42,17 @@ public class RoleResource {
     }
 
     @GetMapping("query/{q}")
-    @ResponseBody
     @ApiOperation(value =
             "根据关键字查询角色数据")
     public Result query(
+            Integer pageNum, Integer pageSize,
             @PathVariable @ApiParam("角色名称") String q
     ) {
+
         log.info("根据关键字查询角色数据");
-        log.info("关键字："+q);
-        List<SysRoleDTO> sysRoleDTOS = new ArrayList<>();
-        if("all".equals(q)){
-            sysRoleDTOS = sysRoleService.findAll();
-        }else {
-            sysRoleDTOS = sysRoleService.query(q);
-        }
+        log.info("关键字：" + q);
+        Page<SysRole> sysRoleDTOS = sysRoleService.query(q, pageNum, pageSize);
+
         return Result.getResult(ErrorCode.OP_SUCCESS, sysRoleDTOS);
     }
 
@@ -70,10 +65,10 @@ public class RoleResource {
             String checkedTags
     ) {
         log.info("修改角色");
-        log.info("roleId："+roleId);
-        log.info("roleName："+roleName);
-        log.info("roleDesc："+roleDesc);
-        log.info("checkedTags:"+checkedTags);
+        log.info("roleId：" + roleId);
+        log.info("roleName：" + roleName);
+        log.info("roleDesc：" + roleDesc);
+        log.info("checkedTags:" + checkedTags);
         // TODO 修改角色基础信息
         SysRole sysRole = sysRoleService.findById(Long.valueOf(roleId));
         sysRole.setName(roleName);
@@ -85,7 +80,7 @@ public class RoleResource {
 
         // TODO 批量插入角色权限关系数据
         List<RelRoleAuth> relRoleAuths = new ArrayList<>();
-        for(String auth:ct){
+        for (String auth : ct) {
             RelRoleAuth relRoleAuth = new RelRoleAuth();
             relRoleAuth.setRoleId(sysRole.getId());
             relRoleAuth.setAuthority(auth);
@@ -101,7 +96,7 @@ public class RoleResource {
             String roleId
     ) {
         log.info("删除角色");
-        log.info("roleId："+roleId);
+        log.info("roleId：" + roleId);
         // TODO 修改角色基础信息
         SysRole sysRole = sysRoleService.findById(Long.valueOf(roleId));
 
@@ -128,17 +123,17 @@ public class RoleResource {
             String checkedTags
     ) {
         log.info("添加角色");
-        log.info("roleName："+roleName);
-        log.info("roleDesc："+roleDesc);
-        log.info("checkedTags:"+checkedTags);
-        SysRole sysRole =new SysRole();
+        log.info("roleName：" + roleName);
+        log.info("roleDesc：" + roleDesc);
+        log.info("checkedTags:" + checkedTags);
+        SysRole sysRole = new SysRole();
         sysRole.setName(roleName);
         sysRole.setDescription(roleDesc);
         sysRoleService.insert(sysRole);
         String[] ct = checkedTags.split(",");
         // TODO 批量插入角色权限关系数据
         List<RelRoleAuth> relRoleAuths = new ArrayList<>();
-        for(String auth:ct){
+        for (String auth : ct) {
             RelRoleAuth relRoleAuth = new RelRoleAuth();
             relRoleAuth.setRoleId(sysRole.getId());
             relRoleAuth.setAuthority(auth);

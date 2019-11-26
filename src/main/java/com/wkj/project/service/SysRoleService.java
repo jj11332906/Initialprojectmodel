@@ -1,5 +1,7 @@
 package com.wkj.project.service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.wkj.project.dto.SysAuthorityDTO;
 import com.wkj.project.dto.SysRoleDTO;
 import com.wkj.project.entity.RelRoleAuth;
@@ -79,20 +81,11 @@ public class SysRoleService {
             sysRoleMapper.deleteRole(sysRole);
     }
 
-    public List<SysRoleDTO> query(String q) {
-        List<SysRole> sysRoles = sysRoleMapper.query(q);
-        List<SysRoleDTO> sysRoleDTOS = new ArrayList<>();
-        for(SysRole role : sysRoles) {
-            List<RelRoleAuth> relRoleAuths = relRoleAuthMapper.findRelRoleAuthsByRoleId(role.getId().toString());
+    public Page<SysRole> query(String q,Integer pageNum,Integer pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        Page<SysRole> sysRoles = sysRoleMapper.query(q);
 
-            List<SysAuthorityDTO> sysAuthorityDTOS = new ArrayList<>();
-            for(RelRoleAuth relRoleAuth : relRoleAuths){
-                SysAuthorityDTO sa = authorityService.findAuthorityDTOByAuthorityCode(relRoleAuth.getAuthority());
-                sysAuthorityDTOS.add(sa);
-            }
-            SysRoleDTO sysRoleDTO = SysRoleDTO.convert(role,sysAuthorityDTOS);
-            sysRoleDTOS.add(sysRoleDTO);
-        }
-        return sysRoleDTOS;
+
+        return sysRoles;
     }
 }
