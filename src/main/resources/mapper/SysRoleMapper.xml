@@ -28,7 +28,7 @@
             and is_enabled = true and is_deleted = FALSE
     </select>
     <insert id="insert" parameterType="com.wkj.project.entity.SysRole" useGeneratedKeys="true" keyProperty="id">
-        insert into sys_role(name, description) values(#{name}, #{description})
+        insert into sys_role(name, description,create_date,update_date,is_deleted,is_enabled) values(#{name}, #{description}, #{createDate}, #{updateDate}, #{isDeleted}, #{isEnabled})
     </insert>
 
     <update id="update" parameterType="com.wkj.project.entity.SysRole">
@@ -40,7 +40,7 @@
 
     <sql id="common_where_if">
         <if test="q != null and q != ''and q != 'all'">
-            AND sr.name like concat('%',#{q},'%')
+            AND name like concat('%',#{q},'%')
         </if>
 
     </sql>

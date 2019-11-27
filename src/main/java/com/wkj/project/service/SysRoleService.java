@@ -8,6 +8,7 @@ import com.wkj.project.entity.RelRoleAuth;
 import com.wkj.project.entity.SysRole;
 import com.wkj.project.mapper.RelRoleAuthMapper;
 import com.wkj.project.mapper.SysRoleMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class SysRoleService {
 
@@ -84,7 +86,6 @@ public class SysRoleService {
     public Page<SysRole> query(String q,Integer pageNum,Integer pageSize) {
         PageHelper.startPage(pageNum,pageSize);
         Page<SysRole> sysRoles = sysRoleMapper.query(q);
-
 
         return sysRoles;
     }

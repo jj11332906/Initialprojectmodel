@@ -16,8 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/role")
@@ -41,20 +40,40 @@ public class RoleResource {
         return Result.getResult(ErrorCode.OP_SUCCESS, sysRoleDTOS);
     }
 
-    @GetMapping("query/{q}")
+    @GetMapping("query")
     @ApiOperation(value =
             "根据关键字查询角色数据")
     public Result query(
-            Integer pageNum, Integer pageSize,
-            @PathVariable @ApiParam("角色名称") String q
+            Integer pageNum, Integer pageSize,String ts,String queryRoleName
     ) {
 
         log.info("根据关键字查询角色数据");
-        log.info("关键字：" + q);
-        Page<SysRole> sysRoleDTOS = sysRoleService.query(q, pageNum, pageSize);
+        log.info("ts: "+ts);
+        log.info("关键字: " + queryRoleName);
+        Page<SysRole> sysRoles = sysRoleService.query(queryRoleName, pageNum, pageSize);
 
-        return Result.getResult(ErrorCode.OP_SUCCESS, sysRoleDTOS);
+        return Result.getResult(ErrorCode.OP_SUCCESS, sysRoles);
     }
+
+    @GetMapping("totalPage")
+    @ApiOperation(value =
+            "根据总页数")
+    public Result totalPage(
+            Integer pageSize,String ts,String queryRoleName
+    ) {
+
+        int pageNum = 1;
+        log.info("根据关键字查询角色数据");
+        log.info("ts: "+ts);
+        log.info("关键字: " + queryRoleName);
+        Page<SysRole> sysRoles = sysRoleService.query(queryRoleName, pageNum, pageSize);
+        int pagenum = sysRoles.getPageNum();
+        int pages = sysRoles.getPages();
+        return Result.getResult(ErrorCode.OP_SUCCESS, pages);
+    }
+
+
+
 
     @PutMapping("put")
     @ApiOperation(value = "修改角色信息")
@@ -129,6 +148,11 @@ public class RoleResource {
         SysRole sysRole = new SysRole();
         sysRole.setName(roleName);
         sysRole.setDescription(roleDesc);
+        sysRole.setCreateDate(new Date());
+        sysRole.setUpdateDate(new Date());
+        sysRole.setIsDeleted(false);
+        sysRole.setIsEnabled(true);
+
         sysRoleService.insert(sysRole);
         String[] ct = checkedTags.split(",");
         // TODO 批量插入角色权限关系数据
