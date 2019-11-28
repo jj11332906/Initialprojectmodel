@@ -4,7 +4,7 @@ package com.wkj.project.entity;
 import lombok.Data;
 
 @Data
-public class SysUser {
+public class SysUser extends BaseEntity{
 
     /**
      * id

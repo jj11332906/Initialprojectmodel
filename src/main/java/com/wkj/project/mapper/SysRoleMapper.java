@@ -2,6 +2,7 @@ package com.wkj.project.mapper;
 
 import com.github.pagehelper.Page;
 import com.wkj.project.entity.SysRole;
+import com.wkj.project.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,4 +22,6 @@ public interface SysRoleMapper {
     void deleteRole(SysRole sysRole);
 
     Page<SysRole> query(@Param("q") String q);
+
+    List<SysRole> findByIsDeletedIsFalseAndIsEnabledIsTrueAndUser(SysUser user);
 }

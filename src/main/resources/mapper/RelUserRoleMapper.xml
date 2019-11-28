@@ -13,4 +13,16 @@
         </if>
     </select>
 
+    <!--一次插入多条记录-->
+    <insert id="mulInsert" parameterType="java.util.ArrayList">
+        insert into rel_user_role (user_id,role_id) VALUES
+        <foreach collection="list" item="userRole"  separator=",">
+            (#{userRole.userId},#{userRole.roleId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteRelationByUserId" parameterType="java.lang.Long">
+        DELETE FROM rel_user_role WHERE user_id = #{userId}
+    </delete>
+
 </mapper>

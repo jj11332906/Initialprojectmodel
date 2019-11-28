@@ -13,4 +13,43 @@
         </if>
     </select>
 
+    <select id="query" resultType="com.wkj.project.entity.SysUser" parameterType="com.github.pagehelper.Page">
+        SELECT
+        *
+        FROM sys_user
+        <where>
+            is_enabled = true
+            and is_deleted = FALSE
+            <include refid="common_where_if"/>
+        </where>
+    </select>
+    <select id="findByIsDeletedIsFalseAndId" resultType="com.wkj.project.entity.SysUser">
+        SELECT
+        *
+        FROM sys_user su
+        where 1=1
+        and su.id = #{id}
+        and is_enabled = true and is_deleted = FALSE
+    </select>
+    <insert id="insert" parameterType="com.wkj.project.entity.SysUser" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_user(username, name,password,describe,email,is_enabled,is_deleted,create_date,update_date)
+        values(#{username}, #{name}, #{password}, #{describe}, #{email}, #{isEnabled}, #{isDeleted}, #{createDate},#{updateDate})
+    </insert>
+    <update id="update" parameterType="com.wkj.project.entity.SysUser">
+        update sys_user SET username = #{username}, name = #{name}, describe = #{describe}, email = #{email}, update_date = #{updateDate} where id= #{id}
+    </update>
+    <update id="delete" parameterType="com.wkj.project.entity.SysUser">
+        update sys_user SET is_deleted = true, is_enabled = false,update_date = #{updateDate}  where id= #{id}
+    </update>
+    <sql id="common_where_if">
+        <if test="queryName != null and queryName != ''">
+            AND name like concat('%',#{queryName},'%')
+        </if>
+        <if test="queryUserName != null and queryUserName != ''">
+            AND username like concat('%',#{queryUserName},'%')
+        </if>
+
+    </sql>
+
+
 </mapper>
