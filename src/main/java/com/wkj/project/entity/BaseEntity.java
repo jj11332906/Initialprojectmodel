@@ -10,4 +10,11 @@ public class BaseEntity {
     private Boolean isEnabled;
     private Date createDate;
     private Date updateDate;
+
+    public void setBaseInfo(){
+        setCreateDate(new Date());
+        setUpdateDate(new Date());
+        setIsDeleted(false);
+        setIsEnabled(true);
+    }
 }

@@ -5,9 +5,9 @@
 
     <select id="findByUsername" resultType="Map">
         SELECT
-          *
-          FROM sys_user su
-          where 1=1
+        *
+        FROM sys_user su
+        where 1=1
         <if test='username != null and username != ""'>
             and su.username = #{username}
         </if>
@@ -32,8 +32,8 @@
         and is_enabled = true and is_deleted = FALSE
     </select>
     <insert id="insert" parameterType="com.wkj.project.entity.SysUser" useGeneratedKeys="true" keyProperty="id">
-        insert into sys_user(username, name,password,describe,email,is_enabled,is_deleted,create_date,update_date)
-        values(#{username}, #{name}, #{password}, #{describe}, #{email}, #{isEnabled}, #{isDeleted}, #{createDate},#{updateDate})
+        insert into sys_user(username, name,password,description,email,is_enabled,is_deleted,create_date,update_date)
+        values(#{username}, #{name}, #{password}, #{description}, #{email}, #{isEnabled}, #{isDeleted}, #{createDate}, #{updateDate})
     </insert>
     <update id="update" parameterType="com.wkj.project.entity.SysUser">
         update sys_user SET username = #{username}, name = #{name}, describe = #{describe}, email = #{email}, update_date = #{updateDate} where id= #{id}

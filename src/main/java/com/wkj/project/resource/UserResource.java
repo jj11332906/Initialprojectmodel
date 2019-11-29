@@ -21,9 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -146,7 +148,7 @@ public class UserResource {
         log.info("describe:" + describe);
         // TODO 修改用户账号基础信息
         SysUser sysUser = sysUserService.findUserById(Long.valueOf(id));
-        sysUser.setDescribe(describe);
+        sysUser.setDescription(describe);
         sysUser.setName(name);
         sysUser.setEmail(email);
         sysUser.setUsername(username);
@@ -205,13 +207,15 @@ public class UserResource {
         log.info("username:" + username);
         log.info("email:" + email);
         log.info("describe:" + describe);
+        Assert.notNull(username,"账号不能为空");
         // TODO 修改用户账号基础信息
         SysUser sysUser = new SysUser();
-        sysUser.setDescribe(describe);
-        sysUser.setName(name);
+        sysUser.setDescription(describe==null?"":describe);
+        sysUser.setName(name==null?"":name);
         sysUser.setPassword(username);
-        sysUser.setEmail(email);
+        sysUser.setEmail(email==null?"":email);
         sysUser.setUsername(username);
+        sysUser.setBaseInfo();
         sysUserService.insert(sysUser);
 
 
