@@ -9,6 +9,7 @@ import com.wkj.project.entity.RelRoleAuth;
 import com.wkj.project.entity.SysRole;
 import com.wkj.project.entity.SysUser;
 import com.wkj.project.mapper.RelRoleAuthMapper;
+import com.wkj.project.mapper.RelUserRoleMapper;
 import com.wkj.project.mapper.SysRoleMapper;
 import com.wkj.project.mapper.SysUserMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +31,8 @@ public class SysUserService {
     AuthorityService authorityService;
     @Autowired
     RelRoleAuthMapper relRoleAuthMapper;
-
+    @Autowired
+    RelUserRoleMapper relUserRoleMapper;
 
     public Long insert(SysUser sysUser) {
         return sysUserMapper.insert(sysUser);
@@ -99,5 +101,7 @@ public class SysUserService {
     }
 
     public void deleteRoleRelationByUser(SysUser sysUser) {
+        Long userId = sysUser.getId();
+        relUserRoleMapper.deleteRelationByUserId(userId);
     }
 }
