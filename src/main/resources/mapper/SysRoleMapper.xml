@@ -43,8 +43,9 @@
         left join rel_user_role rur on su.id = rur.user_id
         left join sys_role sr on rur.role_id = sr.id
         where 1=1
-        and su.id = #{user_id}
-        and is_enabled = true and is_deleted = FALSE
+        and su.id = #{id}
+        and su.is_enabled = true
+        and su.is_deleted = FALSE
     </select>
     <sql id="common_where_if">
         <if test="q != null and q != ''and q != 'all'">

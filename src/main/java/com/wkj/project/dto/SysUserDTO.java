@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,6 +43,19 @@ public class SysUserDTO {
      */
     private String email;
     /**
+     * 创建时间
+     */
+    private String createDateStr;
+    /**
+     * 所属角色
+     */
+    private String roleName;
+    /**
+     * 角色ID
+     */
+    private String roleId;
+
+    /**
      * 该账号关联角色
      */
     private List<SysRoleDTO> sysRoleDTOS;
@@ -48,8 +63,12 @@ public class SysUserDTO {
     public static SysUserDTO convert(SysUser entity,  List<SysRoleDTO> sysRoleDTOS) {
         SysUserDTO dto = new SysUserDTO();
         BeanUtils.copyProperties(entity, dto);
-
+        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dto.setCreateDateStr(sdf.format(entity.getCreateDate()));
         dto.setSysRoleDTOS(sysRoleDTOS);
+        SysRoleDTO sysRoleDTO = sysRoleDTOS.get(0);
+        dto.setRoleName(sysRoleDTO.getName());
+        dto.setRoleId(sysRoleDTO.getId().toString());
         return dto;
     }
 }
