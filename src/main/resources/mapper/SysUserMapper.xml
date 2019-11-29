@@ -36,7 +36,7 @@
         values(#{username}, #{name}, #{password}, #{description}, #{email}, #{isEnabled}, #{isDeleted}, #{createDate}, #{updateDate})
     </insert>
     <update id="update" parameterType="com.wkj.project.entity.SysUser">
-        update sys_user SET username = #{username}, name = #{name}, describe = #{describe}, email = #{email}, update_date = #{updateDate} where id= #{id}
+        update sys_user SET username = #{username}, name = #{name}, description = #{description}, email = #{email}, update_date = #{updateDate} where id= #{id}
     </update>
     <update id="delete" parameterType="com.wkj.project.entity.SysUser">
         update sys_user SET is_deleted = true, is_enabled = false,update_date = #{updateDate}  where id= #{id}
