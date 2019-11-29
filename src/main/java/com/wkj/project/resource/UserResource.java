@@ -81,7 +81,7 @@ public class UserResource {
         if (user == null) {
             return Result.getResult(ErrorCode.NOT_FUND_USER);
         }
-        String url = "http://localhost:8095/oauth/token?username=" + username + "&password=" + password + "&grant_type=password&scope=select&client_id=client_2&client_secret=123456";
+        String url = "http://127.0.0.1:8095/oauth/token?username=" + username + "&password=" + password + "&grant_type=password&scope=select&client_id=client_2&client_secret=123456";
 
         String resultStr = httpRequest.doPost(url, "");
         JSONObject data = JSONUtil.parseObj(resultStr);
