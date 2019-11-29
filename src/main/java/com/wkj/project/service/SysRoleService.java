@@ -38,6 +38,7 @@ public class SysRoleService {
                 SysAuthorityDTO sa = authorityService.findAuthorityDTOByAuthorityCode(relRoleAuth.getAuthority());
                 sysAuthorityDTOS.add(sa);
             }
+
             SysRoleDTO sysRoleDTO = SysRoleDTO.convert(role,sysAuthorityDTOS);
             sysRoleDTOS.add(sysRoleDTO);
         }
