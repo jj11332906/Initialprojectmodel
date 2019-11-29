@@ -4,7 +4,7 @@ package com.wkj.project.entity;
 import lombok.Data;
 
 @Data
-public class SysMenu {
+public class SysMenu extends BaseEntity{
 
     /**
      * id
@@ -21,16 +21,21 @@ public class SysMenu {
     /**
      * 父级菜单
      */
-    private SysMenu parentMenu;
+    private SysMenu groupMenuId;
 
     /**
-     * 是否跳转
+     * 是否为分组
      */
-    private Boolean isHref;
+    private Boolean isGroup;
 
     /**
      * 关联权限
      */
-    private SysAuthority relationAuthority;
+    private SysAuthority relationAuthorityId;
+
+    /**
+     * 描述
+     */
+    private String description;
 
 }
