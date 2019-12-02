@@ -71,6 +71,11 @@ public class SysMenuService {
             menuDTO =  SysMenuDTO.convert(entity,group);
         }
 
+
         return menuDTO;
+    }
+
+    public List<SysMenu> groupList() {
+        return sysMenuMapper.groupList();
     }
 }

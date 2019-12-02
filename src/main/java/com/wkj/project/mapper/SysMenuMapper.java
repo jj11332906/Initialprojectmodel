@@ -4,6 +4,8 @@ import com.github.pagehelper.Page;
 import com.wkj.project.entity.SysMenu;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface SysMenuMapper {
 
 
@@ -16,4 +18,6 @@ public interface SysMenuMapper {
     Page<SysMenu> query(@Param("queryGroupName") String queryGroupName, @Param("queryMenuName") String queryMenuName);
 
     void update(SysMenu sysMenu);
+
+    List<SysMenu> groupList();
 }

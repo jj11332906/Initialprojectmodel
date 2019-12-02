@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wkj.project.mapper.SysMenuMapper">
-
+    <select id="groupList" resultType="com.wkj.project.entity.SysMenu">
+        SELECT
+        *
+        FROM sys_menu sm
+        <where>
+            sm.is_group = true
+            and sm.is_enabled = true
+            and sm.is_deleted = FALSE
+        </where>
+    </select>
     <select id="query" resultType="com.wkj.project.entity.SysMenu" parameterType="com.github.pagehelper.Page">
         SELECT
         *
@@ -22,8 +31,8 @@
         and sm.is_enabled = true and sm.is_deleted = FALSE
     </select>
     <insert id="insert" parameterType="com.wkj.project.entity.SysMenu" useGeneratedKeys="true" keyProperty="id">
-        insert into sys_menu(menu_name, menu_url,group_menu_id,is_group,description,sort)
-        values(#{menuName}, #{menuUrl}, #{groupMenuId}, #{isGroup}, #{description}, #{sort})
+        insert into sys_menu(menu_name, menu_url,group_menu_id,is_group,description,sort,create_date,update_date,is_deleted,is_enabled)
+        values(#{menuName}, #{menuUrl}, #{groupMenuId}, #{isGroup}, #{description}, #{sort}, #{createDate}, #{updateDate}, #{isDeleted}, #{isEnabled})
     </insert>
     <update id="update" parameterType="com.wkj.project.entity.SysMenu">
         update sys_menu SET menu_name = #{menuName}, menu_url = #{menuUrl}, group_menu_id = #{groupMenuId}, is_group = #{isGroup}, description = #{description}, sort = #{sort} where id= #{id}

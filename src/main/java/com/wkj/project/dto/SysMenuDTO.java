@@ -62,9 +62,12 @@ public class SysMenuDTO {
         BeanUtils.copyProperties(entity, dto);
         SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dto.setCreateDateStr(sdf.format(entity.getCreateDate()));
-        if(entity.getIsGroup()) {
+        if(!entity.getIsGroup()) {
             dto.setGroupId(group.getId().toString());
             dto.setGroupName(group.getMenuName().toString());
+        }else{
+            dto.setGroupName("");
+            dto.setMenuUrl("");
         }
         return dto;
     }

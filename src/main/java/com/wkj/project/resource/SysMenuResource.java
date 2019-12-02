@@ -165,7 +165,10 @@ public class SysMenuResource {
         SysMenu sysMenu = new SysMenu();
         sysMenu.setDescription(description == null ? "" : description);
         sysMenu.setSort(Long.valueOf(sort));
-        sysMenu.setMenuName(groupName == null ? "" : groupName);
+        sysMenu.setMenuName(groupName);
+        sysMenu.setIsGroup(true);
+        sysMenu.setGroupMenuId(null);
+        sysMenu.setMenuUrl(null);
         sysMenu.setBaseInfo();
         sysMenuService.insert(sysMenu);
         return Result.getResult(ErrorCode.OP_SUCCESS, sysMenu);
@@ -195,14 +198,26 @@ public class SysMenuResource {
         Assert.notNull(menuName, "菜单名不能为空");
         // TODO 修改分组信息
         SysMenu sysMenu = new SysMenu();
-        sysMenu.setMenuName(menuName == null ? "" : menuName);
+        sysMenu.setMenuName(menuName);
         sysMenu.setDescription(description == null ? "" : description);
         sysMenu.setSort(Long.valueOf(sort));
         sysMenu.setMenuUrl(menuHref == null ? "" : menuHref);
         sysMenu.setGroupMenuId(Long.valueOf(groupId));
+        sysMenu.setIsGroup(false);
         sysMenu.setBaseInfo();
         sysMenuService.insert(sysMenu);
         return Result.getResult(ErrorCode.OP_SUCCESS, sysMenu);
+    }
+
+
+    @GetMapping("groupList")
+    @ResponseBody
+    @ApiOperation(value = "获取分组数据")
+    public Result groupList(
+    ) {
+        log.info("获取分组列表数据");
+        List<SysMenu> sysMenuList = sysMenuService.groupList();
+        return Result.getResult(ErrorCode.OP_SUCCESS, sysMenuList);
     }
 
 }
