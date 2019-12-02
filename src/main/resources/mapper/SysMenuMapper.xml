@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wkj.project.mapper.SysMenuMapper">
+
+    <select id="query" resultType="com.wkj.project.entity.SysMenu" parameterType="com.github.pagehelper.Page">
+        SELECT
+        *
+        FROM sys_menu sm
+        left join sys_menu gm on sm.group_menu_id = gm.id
+        <where>
+            sm.is_enabled = true
+            and sm.is_deleted = FALSE
+            <include refid="common_where_if"/>
+        </where>
+    </select>
+    <select id="findByIsDeletedIsFalseAndId" resultType="com.wkj.project.entity.SysMenu">
+        SELECT
+        *
+        FROM sys_menu sm
+        where 1=1
+        and sm.id = #{id}
+        and sm.is_enabled = true and sm.is_deleted = FALSE
+    </select>
+    <insert id="insert" parameterType="com.wkj.project.entity.SysMenu" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_menu(menu_name, menu_url,group_menu_id,is_group,description,sort)
+        values(#{menuName}, #{menuUrl}, #{groupMenuId}, #{isGroup}, #{description}, #{sort})
+    </insert>
+    <update id="update" parameterType="com.wkj.project.entity.SysMenu">
+        update sys_menu SET menu_name = #{menuName}, menu_url = #{menuUrl}, group_menu_id = #{groupMenuId}, is_group = #{isGroup}, description = #{description}, sort = #{sort} where id= #{id}
+    </update>
+    <update id="delete" parameterType="com.wkj.project.entity.SysMenu">
+        update sys_menu SET is_deleted = true, is_enabled = false,update_date = #{updateDate}  where id= #{id}
+    </update>
+    <sql id="common_where_if">
+        <if test="queryGroupName != null and queryGroupName != ''">
+            AND gm.menu_name like concat('%',#{queryGroupName},'%')
+        </if>
+        <if test="queryMenuName != null and queryMenuName != ''">
+            AND sm.menu_name like concat('%',#{queryMenuName},'%')
+        </if>
+
+    </sql>
+
+
+</mapper>

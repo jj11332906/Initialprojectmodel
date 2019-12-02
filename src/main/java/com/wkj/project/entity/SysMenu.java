@@ -31,7 +31,7 @@ public class SysMenu extends BaseEntity{
     /**
      * 关联权限
      */
-    private Long relationAuthorityId;
+    private String relationAuthority;
 
     /**
      * 描述
