@@ -21,7 +21,7 @@ public class SysMenu extends BaseEntity{
     /**
      * 父级菜单
      */
-    private SysMenu groupMenuId;
+    private Long groupMenuId;
 
     /**
      * 是否为分组
@@ -31,11 +31,15 @@ public class SysMenu extends BaseEntity{
     /**
      * 关联权限
      */
-    private SysAuthority relationAuthorityId;
+    private Long relationAuthorityId;
 
     /**
      * 描述
      */
     private String description;
+    /**
+     * 顺序
+     */
+    private Long sort;
 
 }

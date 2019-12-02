@@ -25,15 +25,14 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
 @Slf4j
-@Api(description = "用户登录")
-public class UserResource {
+@Api(description = "用户管理")
+public class SysUserResource {
 
     @Autowired
     SysUserMapper sysUserMapper;
@@ -207,13 +206,13 @@ public class UserResource {
         log.info("username:" + username);
         log.info("email:" + email);
         log.info("describe:" + describe);
-        Assert.notNull(username,"账号不能为空");
+        Assert.notNull(username, "账号不能为空");
         // TODO 修改用户账号基础信息
         SysUser sysUser = new SysUser();
-        sysUser.setDescription(describe==null?"":describe);
-        sysUser.setName(name==null?"":name);
+        sysUser.setDescription(describe == null ? "" : describe);
+        sysUser.setName(name == null ? "" : name);
         sysUser.setPassword(username);
-        sysUser.setEmail(email==null?"":email);
+        sysUser.setEmail(email == null ? "" : email);
         sysUser.setUsername(username);
         sysUser.setBaseInfo();
         sysUserService.insert(sysUser);

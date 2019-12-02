@@ -22,7 +22,7 @@ import java.util.*;
 @RequestMapping("/role")
 @Slf4j
 @Api(description = "角色管理")
-public class RoleResource {
+public class SysRoleResource {
 
     @Autowired
     SysRoleService sysRoleService;

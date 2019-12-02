@@ -45,6 +45,11 @@ public class SysMenuDTO {
      */
     private String description;
 
+    /**
+     * 顺序
+     */
+    private Long sort;
+
 
     /**
      * 描述
@@ -52,21 +57,15 @@ public class SysMenuDTO {
     private String createDateStr;
 
 
-    public static SysMenuDTO convertMenu(SysMenu entity,SysMenu group) {
+    public static SysMenuDTO convert(SysMenu entity,SysMenu group) {
         SysMenuDTO dto = new SysMenuDTO();
         BeanUtils.copyProperties(entity, dto);
         SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dto.setCreateDateStr(sdf.format(entity.getCreateDate()));
-        dto.setGroupId(group.getId().toString());
-        dto.setGroupName(group.getMenuName().toString());
-        return dto;
-    }
-
-    public static SysMenuDTO convertGroup(SysMenu entity) {
-        SysMenuDTO dto = new SysMenuDTO();
-        BeanUtils.copyProperties(entity, dto);
-        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        dto.setCreateDateStr(sdf.format(entity.getCreateDate()));
+        if(entity.getIsGroup()) {
+            dto.setGroupId(group.getId().toString());
+            dto.setGroupName(group.getMenuName().toString());
+        }
         return dto;
     }
 }
