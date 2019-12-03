@@ -35,7 +35,7 @@
         values(#{menuName}, #{menuUrl}, #{groupMenuId}, #{isGroup}, #{description}, #{sort}, #{createDate}, #{updateDate}, #{isDeleted}, #{isEnabled})
     </insert>
     <update id="update" parameterType="com.wkj.project.entity.SysMenu">
-        update sys_menu SET menu_name = #{menuName}, menu_url = #{menuUrl}, group_menu_id = #{groupMenuId}, is_group = #{isGroup}, description = #{description}, sort = #{sort} where id= #{id}
+        update sys_menu SET menu_name = #{menuName}, menu_url = #{menuUrl}, group_menu_id = #{groupMenuId}, is_group = #{isGroup}, description = #{description}, sort = #{sort},update_date = #{updateDate}  where id= #{id}
     </update>
     <update id="delete" parameterType="com.wkj.project.entity.SysMenu">
         update sys_menu SET is_deleted = true, is_enabled = false,update_date = #{updateDate}  where id= #{id}
