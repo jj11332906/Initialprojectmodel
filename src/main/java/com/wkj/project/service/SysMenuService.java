@@ -78,4 +78,8 @@ public class SysMenuService {
     public List<SysMenu> groupList() {
         return sysMenuMapper.groupList();
     }
+
+    public List<SysMenu> findMenuListByGroupId(Long groupId) {
+        return sysMenuMapper.findMenuListByGroupId(groupId);
+    }
 }

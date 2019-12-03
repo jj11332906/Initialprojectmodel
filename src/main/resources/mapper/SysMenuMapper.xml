@@ -11,6 +11,17 @@
             and sm.is_deleted = FALSE
         </where>
     </select>
+    <select id="findMenuListByGroupId" resultType="com.wkj.project.entity.SysMenu">
+        SELECT
+        *
+        FROM sys_menu sm
+        <where>
+            sm.is_group = false
+            and sm.group_menu_id = #{groupId}
+            and sm.is_enabled = true
+            and sm.is_deleted = FALSE
+        </where>
+    </select>
     <select id="query" resultType="com.wkj.project.entity.SysMenu" parameterType="com.github.pagehelper.Page">
         SELECT
         *

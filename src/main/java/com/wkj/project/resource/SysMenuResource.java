@@ -1,5 +1,8 @@
 package com.wkj.project.resource;
 
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.github.pagehelper.Page;
 import com.wkj.project.dto.SysMenuDTO;
 import com.wkj.project.entity.SysMenu;
@@ -131,7 +134,13 @@ public class SysMenuResource {
         log.info("menuId：" + menuId);
 
         SysMenu sysMenu = sysMenuService.findMenuById(Long.valueOf(menuId));
-
+        if(sysMenu.getIsGroup()){
+            List<SysMenu> menuList = sysMenuService.findMenuListByGroupId(sysMenu.getId());
+            for (SysMenu subMenu:
+                 menuList) {
+                sysMenuService.delete(subMenu);
+            }
+        }
         sysMenuService.delete(sysMenu);
 
         return Result.getResult(ErrorCode.OP_SUCCESS, sysMenu);
@@ -219,5 +228,32 @@ public class SysMenuResource {
         List<SysMenu> sysMenuList = sysMenuService.groupList();
         return Result.getResult(ErrorCode.OP_SUCCESS, sysMenuList);
     }
+
+
+    @GetMapping("menuData")
+    @ResponseBody
+    @ApiOperation(value = "获取菜单")
+    public Result menuData(
+    ) {
+        log.info("获取分组列表数据");
+        List<SysMenu> groupList = sysMenuService.groupList();
+
+        JSONArray groupArray = new JSONArray();
+        for (SysMenu group :
+                groupList) {
+            JSONObject groupJson = JSONUtil.parseObj(group);
+            JSONArray menuJSONArray = new JSONArray();
+            List<SysMenu> menuList = sysMenuService.findMenuListByGroupId(group.getId());
+            for (SysMenu menu :
+                    menuList) {
+                JSONObject menuJSON = JSONUtil.parseObj(menu);
+                menuJSONArray.add(menuJSON);
+            }
+            groupJson.put("menu",menuJSONArray);
+            groupArray.add(groupJson);
+        }
+        return Result.getResult(ErrorCode.OP_SUCCESS, groupArray);
+    }
+
 
 }

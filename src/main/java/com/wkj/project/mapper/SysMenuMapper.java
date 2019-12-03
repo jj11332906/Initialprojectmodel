@@ -20,4 +20,6 @@ public interface SysMenuMapper {
     void update(SysMenu sysMenu);
 
     List<SysMenu> groupList();
+
+    List<SysMenu> findMenuListByGroupId(@Param("groupId") Long groupId);
 }
