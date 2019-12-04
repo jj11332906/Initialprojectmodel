@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wkj.project.mapper.ArticleMapper">
+    <select id="findById" resultType="Map">
+        SELECT
+        *
+        FROM article ac
+        where 1=1
+        <if test='id != null and id != ""'>
+            and ac.id = #{id}
+        </if>
+    </select>
+    <select id="query" resultType="com.wkj.project.entity.Article" parameterType="com.github.pagehelper.Page">
+        SELECT
+        *
+        FROM article
+        <where>
+            is_enabled = true
+            and is_deleted = FALSE
+            <include refid="common_where_if"/>
+        </where>
+    </select>
+    <select id="findByIsDeletedIsFalseAndId" resultType="com.wkj.project.entity.Article">
+        SELECT
+        *
+        FROM article ac
+        where 1=1
+        and ac.id = #{id}
+        and ac.is_enabled = true and ac.is_deleted = FALSE
+    </select>
+    <insert id="insert" parameterType="com.wkj.project.entity.Article" useGeneratedKeys="true" keyProperty="id">
+        insert into article(title, content,remark,creator,is_enabled,is_deleted,create_date,update_date)
+        values(#{title}, #{content}, #{remark}, #{creator}, #{isEnabled}, #{isDeleted}, #{createDate}, #{updateDate})
+    </insert>
+    <update id="update" parameterType="com.wkj.project.entity.Article">
+        update article SET title = #{title}, content = #{content}, remark = #{remark}, creator = #{creator}, update_date = #{updateDate} where id= #{id}
+    </update>
+    <update id="delete" parameterType="com.wkj.project.entity.Article">
+        update article SET is_deleted = true, is_enabled = false,update_date = #{updateDate}  where id= #{id}
+    </update>
+    <sql id="common_where_if">
+        <if test="title != null and title != ''">
+            AND title like concat('%',#{title},'%')
+        </if>
+    </sql>
+</mapper>

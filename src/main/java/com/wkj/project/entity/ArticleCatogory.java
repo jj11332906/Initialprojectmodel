@@ -3,19 +3,16 @@ package com.wkj.project.entity;
 import lombok.Data;
 
 @Data
-public class Article extends BaseEntity{
+public class ArticleCatogory extends BaseEntity{
     /**
-     * 文章ID
+     * 文章分类ID
      */
     private Long id;
     /**
-     * 文章标题
+     * 分类标题
      */
     private String title;
-    /**
-     * 文章内容，存的是html
-     */
-    private String content;
+
     /**
      * 备注
      */
