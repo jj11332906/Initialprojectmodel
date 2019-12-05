@@ -3,11 +3,13 @@
 <mapper namespace="com.wkj.project.mapper.SysUserMapper">
 
 
-    <select id="findByUsername" resultType="Map">
+    <select id="findByUsername" resultType="com.wkj.project.entity.SysUser">
         SELECT
         *
         FROM sys_user su
-        where 1=1
+        where
+        su.is_enabled = true
+        and su.is_deleted = FALSE
         <if test='username != null and username != ""'>
             and su.username = #{username}
         </if>

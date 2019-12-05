@@ -3,8 +3,10 @@ package com.wkj.project.resource;
 import com.github.pagehelper.Page;
 import com.wkj.project.dto.ArticleDTO;
 import com.wkj.project.entity.Article;
+import com.wkj.project.entity.SysUser;
 import com.wkj.project.form.ArticleForm;
 import com.wkj.project.service.ArticleService;
+import com.wkj.project.service.Oauth2UtilService;
 import com.wkj.project.util.ErrorCode;
 import com.wkj.project.util.Result;
 import io.swagger.annotations.Api;
@@ -27,16 +29,23 @@ public class ArticleResource {
     @Autowired
     ArticleService articleService;
 
+    @Autowired
+    Oauth2UtilService oauth2UtilService;
+
 
     @GetMapping("query")
     @ApiOperation(value =
             "根据关键字查询数据")
     public Result query(
-            Integer pageNum, Integer pageSize, String ts, String title
+            Integer pageNum, Integer pageSize, String ts, String title,String accessToken
     ) {
-        log.info("根据关键字查询菜单数据");
+        log.info("根据关键字查询文章数据");
         log.info("ts: " + ts);
         log.info("title: " + title);
+        log.info("accessToken: " + accessToken);
+        //todo 通过accessToken获取用户信息，通过用户信息可以控制数据访问权限
+        SysUser sysUser = oauth2UtilService.getUserByToken(accessToken);
+
         Page<Article> articles = articleService.query(title, pageNum, pageSize);
         List<ArticleDTO> articleDTOS = new ArrayList<>();
         List<Article> articleList = articles.getResult();

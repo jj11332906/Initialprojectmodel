@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface SysUserMapper {
 
-    Map findByUsername(@Param("username") String username);
+    SysUser findByUsername(@Param("username") String username);
 
     Long insert(SysUser sysUser);
 

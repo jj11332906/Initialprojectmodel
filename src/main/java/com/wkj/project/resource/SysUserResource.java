@@ -8,6 +8,7 @@ import com.wkj.project.dto.SysUserDTO;
 import com.wkj.project.entity.RelUserRole;
 import com.wkj.project.entity.SysUser;
 import com.wkj.project.mapper.SysUserMapper;
+import com.wkj.project.service.Oauth2UtilService;
 import com.wkj.project.service.RelUserRoleService;
 import com.wkj.project.service.SysUserService;
 import com.wkj.project.util.ErrorCode;
@@ -45,24 +46,19 @@ public class SysUserResource {
     @Autowired
     RelUserRoleService relUserRoleService;
 
+    @Autowired
+    Oauth2UtilService oauth2UtilService;
+
     @GetMapping("user")
     @ResponseBody
     @ApiOperation(value = "获取用户信息")
     public Result getUsers(
             String access_token
     ) {
-        OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(access_token);
-//        OAuth2RefreshToken oAuth2RefreshToken = tokenStore.readRefreshToken(access_token);
-        OAuth2Authentication oAuth2Authentication = tokenStore.readAuthentication(oAuth2AccessToken);
-        Object principal = oAuth2Authentication.getUserAuthentication().getPrincipal();
-//        User userPrincipal = (User)principal;
-        ObjectMapper oMapper = new ObjectMapper();
-        Map<String, Object> map = oMapper.convertValue(principal, Map.class);
-        String username = map.get("username").toString();
-        Map user = sysUserMapper.findByUsername(username);
-        map.put("user", user);
 
-        return Result.getResult(map);
+        SysUser user = oauth2UtilService.getUserByToken(access_token);
+
+        return Result.getResult(user);
 
     }
 
@@ -75,7 +71,7 @@ public class SysUserResource {
             String password
     ) {
         log.info("登录");
-        Map user = sysUserMapper.findByUsername(username);
+        SysUser user = sysUserMapper.findByUsername(username);
 
         if (user == null) {
             return Result.getResult(ErrorCode.NOT_FUND_USER);
