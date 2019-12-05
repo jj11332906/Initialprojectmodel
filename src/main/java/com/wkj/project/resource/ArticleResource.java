@@ -1,16 +1,10 @@
 package com.wkj.project.resource;
 
-import cn.hutool.json.JSONArray;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.github.pagehelper.Page;
 import com.wkj.project.dto.ArticleDTO;
-import com.wkj.project.dto.SysMenuDTO;
 import com.wkj.project.entity.Article;
-import com.wkj.project.entity.SysMenu;
 import com.wkj.project.form.ArticleForm;
 import com.wkj.project.service.ArticleService;
-import com.wkj.project.service.SysMenuService;
 import com.wkj.project.util.ErrorCode;
 import com.wkj.project.util.Result;
 import io.swagger.annotations.Api;
@@ -18,15 +12,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/artcile")
+@RequestMapping("/article")
 @Slf4j
 @Api(description = "文章管理")
 public class ArticleResource {
@@ -80,11 +72,10 @@ public class ArticleResource {
         log.info("修改文章信息");
         log.info("id：" + id);
         // TODO 修改用户账号基础信息
-        Article entity = articleService.update(form,id);
+        Article entity = articleService.update(form, id);
 
         return Result.getResult(ErrorCode.OP_SUCCESS, ArticleDTO.convert(entity));
     }
-
 
 
     @PutMapping("delete")
