@@ -64,9 +64,9 @@ public class ArticleService {
         articleMapper.delete(article);
     }
 
-    public Page<Article> query(String title,Integer pageNum,Integer pageSize) {
+    public Page<Article> query(String title,String creator,Integer pageNum,Integer pageSize) {
         PageHelper.startPage(pageNum,pageSize);
-        Page<Article> articles = articleMapper.query(title);
+        Page<Article> articles = articleMapper.query(title,creator);
 
         return articles;
     }

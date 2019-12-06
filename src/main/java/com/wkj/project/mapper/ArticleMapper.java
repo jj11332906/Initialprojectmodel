@@ -17,7 +17,7 @@ public interface ArticleMapper {
 
     void delete(Article article);
 
-    Page<Article> query(@Param("title") String title);
+    Page<Article> query(@Param("title") String title,@Param("creator") String creator);
 
     void update(Article article);
 }

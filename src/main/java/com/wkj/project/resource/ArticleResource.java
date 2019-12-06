@@ -45,8 +45,8 @@ public class ArticleResource {
         log.info("accessToken: " + accessToken);
         //todo 通过accessToken获取用户信息，通过用户信息可以控制数据访问权限
         SysUser sysUser = oauth2UtilService.getUserByToken(accessToken);
-
-        Page<Article> articles = articleService.query(queryTitle, pageNum, pageSize);
+        String creator = sysUser.getUsername();
+        Page<Article> articles = articleService.query(queryTitle,creator, pageNum, pageSize);
         List<ArticleDTO> articleDTOS = new ArrayList<>();
         List<Article> articleList = articles.getResult();
         articleList.forEach(article -> {
@@ -61,11 +61,13 @@ public class ArticleResource {
     @ApiOperation(value =
             "总页数")
     public Result totalPage(
-            Integer pageSize, String ts, String title
+            Integer pageSize, String ts, String title,String accessToken
     ) {
-
+        //todo 通过accessToken获取用户信息，通过用户信息可以控制数据访问权限
+        SysUser sysUser = oauth2UtilService.getUserByToken(accessToken);
+        String creator = sysUser.getUsername();
         int pageNum = 1;
-        Page<Article> articlePage = articleService.query(title, pageNum, pageSize);
+        Page<Article> articlePage = articleService.query(title,creator, pageNum, pageSize);
         int pages = articlePage.getPages();
         return Result.getResult(ErrorCode.OP_SUCCESS, pages);
     }
