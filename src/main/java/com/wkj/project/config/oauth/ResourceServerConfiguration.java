@@ -29,8 +29,15 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .anonymous()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/article/**")
-                .authenticated();
+                .antMatchers("/user/login/").permitAll()
+//                .antMatchers("/article/**")
+                .antMatchers("/article/query").hasAnyAuthority("sysadmin","articleMng","articleRead","articleDelete","articleAdd","articleUpdate")
+                .antMatchers("/article/totalPage").hasAnyAuthority("sysadmin","articleMng","articleRead","articleDelete","articleAdd","articleUpdate")
+                .antMatchers("/article/put/**").hasAnyAuthority("sysadmin","articleMng","articleUpdate")
+                .antMatchers("/article/delete").hasAnyAuthority("sysadmin","articleMng","articleDelete")
+                .antMatchers("/article/find/**").hasAnyAuthority("sysadmin","articleMng","articleRead","articleDelete","articleAdd","articleUpdate")
+                .antMatchers("/article/add").hasAnyAuthority("sysadmin","articleMng","articleAdd");
+//                .anyRequest().authenticated();
 //        httpSecurity.authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll();
     }
 
