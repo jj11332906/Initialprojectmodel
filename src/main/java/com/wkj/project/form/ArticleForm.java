@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 @ApiModel("文章")
 @Data
-public class ArticleForm {
+public class ArticleForm extends BaseForm{
 
 
     @ApiModelProperty("文章标题")

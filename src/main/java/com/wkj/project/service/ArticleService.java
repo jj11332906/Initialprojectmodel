@@ -28,10 +28,11 @@ public class ArticleService {
     @Autowired
     ArticleMapper articleMapper;
 
-    public Article insert(ArticleForm form) {
+    public Article insert(ArticleForm form,String username) {
         Article article = new Article();
         BeanUtils.copyProperties(form,article);
         article.setBaseInfo();
+        article.setCreator(username);
         articleMapper.insert(article);
         return article;
     }

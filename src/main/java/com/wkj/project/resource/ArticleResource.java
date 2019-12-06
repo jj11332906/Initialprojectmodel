@@ -37,16 +37,16 @@ public class ArticleResource {
     @ApiOperation(value =
             "根据关键字查询数据")
     public Result query(
-            Integer pageNum, Integer pageSize, String ts, String title,String accessToken
+            Integer pageNum, Integer pageSize, String ts, String queryTitle,String accessToken
     ) {
         log.info("根据关键字查询文章数据");
         log.info("ts: " + ts);
-        log.info("title: " + title);
+        log.info("queryTitle: " + queryTitle);
         log.info("accessToken: " + accessToken);
         //todo 通过accessToken获取用户信息，通过用户信息可以控制数据访问权限
         SysUser sysUser = oauth2UtilService.getUserByToken(accessToken);
 
-        Page<Article> articles = articleService.query(title, pageNum, pageSize);
+        Page<Article> articles = articleService.query(queryTitle, pageNum, pageSize);
         List<ArticleDTO> articleDTOS = new ArrayList<>();
         List<Article> articleList = articles.getResult();
         articleList.forEach(article -> {
@@ -120,7 +120,10 @@ public class ArticleResource {
         log.info("title：" + form.getTitle());
         log.info("content：" + form.getContent());
         log.info("remark:" + form.getRemark());
-        Article article = articleService.insert(form);
+        //todo 通过accessToken获取用户信息，通过用户信息可以控制数据访问权限
+        SysUser sysUser = oauth2UtilService.getUserByToken(form.getAccessToken());
+
+        Article article = articleService.insert(form,sysUser.getUsername());
 
         return Result.getResult(ErrorCode.OP_SUCCESS, article);
 
