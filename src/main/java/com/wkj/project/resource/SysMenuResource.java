@@ -69,11 +69,12 @@ public class SysMenuResource {
 
     @PutMapping("putGroup")
     @ApiOperation(value = "修改分组信息")
-    public Result update(
+    public Result updateGroup(
             String id,
             String sort,
             String groupName,
-            String description
+            String description,
+            String relationAuthority
 
     ) {
         log.info("修改分组信息");
@@ -88,6 +89,7 @@ public class SysMenuResource {
         sysMenu.setSort(Long.valueOf(sort));
         sysMenu.setMenuName(groupName);
         sysMenu.setUpdateDate(new Date());
+        sysMenu.setRelationAuthority(relationAuthority);
         sysMenuService.update(sysMenu);
         return Result.getResult(ErrorCode.OP_SUCCESS, sysMenu);
     }
@@ -163,7 +165,8 @@ public class SysMenuResource {
     public Result addGroup(
             String sort,
             String groupName,
-            String description
+            String description,
+            String relationAuthority
     ) {
         log.info("添加分组");
         log.info("sort：" + sort);
@@ -177,6 +180,7 @@ public class SysMenuResource {
         sysMenu.setDescription(description == null ? "" : description);
         sysMenu.setSort(Long.valueOf(sort));
         sysMenu.setMenuName(groupName);
+        sysMenu.setRelationAuthority(relationAuthority);
         sysMenu.setIsGroup(true);
         sysMenu.setGroupMenuId(null);
         sysMenu.setMenuUrl(null);
