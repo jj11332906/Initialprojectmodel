@@ -42,5 +42,8 @@
         <if test="title != null and title != ''">
             AND title like concat('%',#{title},'%')
         </if>
+        <if test="creator != null and creator != ''">
+            AND creator = #{creator}
+        </if>
     </sql>
 </mapper>
