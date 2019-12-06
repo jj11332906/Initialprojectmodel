@@ -32,11 +32,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //            .authorizeRequests() //定义哪些URL需要被保护、哪些不需要被保护
 //            .anyRequest()   //任何请求、登录后可以访问
 //            .authenticated();
-           http.requestMatchers().anyRequest()
-                   .and().authorizeRequests()
-                   .antMatchers("/oauth/*")
-                   .permitAll()
-                   .and().addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class);
+
+
+//           http.requestMatchers().anyRequest()
+//                   .and().authorizeRequests()
+//                   .antMatchers("/oauth/*")
+//                   .permitAll()
+//                   .and().addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
 //    @Autowired

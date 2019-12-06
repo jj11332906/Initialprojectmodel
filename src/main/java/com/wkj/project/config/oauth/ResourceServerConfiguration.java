@@ -29,7 +29,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .anonymous()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/test/order/**")
+                .antMatchers("/article/**")
                 .authenticated();
 //        httpSecurity.authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll();
     }
