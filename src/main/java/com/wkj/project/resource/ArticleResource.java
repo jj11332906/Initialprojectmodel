@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -112,9 +113,12 @@ public class ArticleResource {
         return Result.getResult(ErrorCode.OP_SUCCESS, entity);
     }
 
+
     @PostMapping("add")
     @ResponseBody
     @ApiOperation(value = "添加文章")
+    //todo 注意这里对接口访问权限配置
+    @PreAuthorize("hasAnyAuthority('sysadmin','articleMng','articleAdd')")
     public Result add(
             @ModelAttribute("Article") ArticleForm form
     ) {
