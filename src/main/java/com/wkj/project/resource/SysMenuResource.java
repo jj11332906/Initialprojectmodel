@@ -4,9 +4,15 @@ import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.github.pagehelper.Page;
+import com.wkj.project.dto.SysAuthorityDTO;
 import com.wkj.project.dto.SysMenuDTO;
+import com.wkj.project.dto.SysRoleDTO;
+import com.wkj.project.dto.SysUserDTO;
 import com.wkj.project.entity.SysMenu;
+import com.wkj.project.entity.SysUser;
+import com.wkj.project.service.Oauth2UtilService;
 import com.wkj.project.service.SysMenuService;
+import com.wkj.project.service.SysUserService;
 import com.wkj.project.util.ErrorCode;
 import com.wkj.project.util.Result;
 import io.swagger.annotations.Api;
@@ -30,7 +36,10 @@ public class SysMenuResource {
 
     @Autowired
     SysMenuService sysMenuService;
-
+    @Autowired
+    Oauth2UtilService oauth2UtilService;
+    @Autowired
+    SysUserService sysUserService;
 
     @GetMapping("query")
     @ApiOperation(value =
@@ -139,7 +148,7 @@ public class SysMenuResource {
 
         SysMenu sysMenu = sysMenuService.findMenuById(Long.valueOf(menuId));
         if(sysMenu.getIsGroup()){
-            List<SysMenu> menuList = sysMenuService.findMenuListByGroupId(sysMenu.getId());
+            List<SysMenu> menuList = sysMenuService.findMenuListByGroupId(sysMenu.getId(),null);
             for (SysMenu subMenu:
                  menuList) {
                 sysMenuService.delete(subMenu);
@@ -233,7 +242,7 @@ public class SysMenuResource {
     public Result groupList(
     ) {
         log.info("获取分组列表数据");
-        List<SysMenu> sysMenuList = sysMenuService.groupList();
+        List<SysMenu> sysMenuList = sysMenuService.groupList(null);
         return Result.getResult(ErrorCode.OP_SUCCESS, sysMenuList);
     }
 
@@ -242,16 +251,29 @@ public class SysMenuResource {
     @ResponseBody
     @ApiOperation(value = "获取菜单")
     public Result menuData(
+            String accessToken
     ) {
+
+        SysUser sysUser = oauth2UtilService.getUserByToken(accessToken);
+        SysUserDTO sysUserDTO = sysUserService.convertUserToDTO(sysUser);
+        SysRoleDTO sysRoleDTO = sysUserDTO.getSysRoleDTOS().get(0);
+        List<SysAuthorityDTO> authorityDTOS = sysRoleDTO.getAuthorityDTOS();
+        List<String> authoritys = new ArrayList<>();
+
+        authorityDTOS.forEach(authorityDTO -> {
+            String auth = authorityDTO.getAuthority();
+            authoritys.add(auth);
+        });
+
         log.info("获取分组列表数据");
-        List<SysMenu> groupList = sysMenuService.groupList();
+        List<SysMenu> groupList = sysMenuService.groupList(authoritys);
 
         JSONArray groupArray = new JSONArray();
         for (SysMenu group :
                 groupList) {
             JSONObject groupJson = JSONUtil.parseObj(group);
             JSONArray menuJSONArray = new JSONArray();
-            List<SysMenu> menuList = sysMenuService.findMenuListByGroupId(group.getId());
+            List<SysMenu> menuList = sysMenuService.findMenuListByGroupId(group.getId(),authoritys);
             for (SysMenu menu :
                     menuList) {
                 JSONObject menuJSON = JSONUtil.parseObj(menu);

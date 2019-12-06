@@ -75,11 +75,11 @@ public class SysMenuService {
         return menuDTO;
     }
 
-    public List<SysMenu> groupList() {
-        return sysMenuMapper.groupList();
+    public List<SysMenu> groupList(List<String> auths) {
+        return sysMenuMapper.groupList(auths);
     }
 
-    public List<SysMenu> findMenuListByGroupId(Long groupId) {
-        return sysMenuMapper.findMenuListByGroupId(groupId);
+    public List<SysMenu> findMenuListByGroupId(Long groupId,List<String> auths) {
+        return sysMenuMapper.findMenuListByGroupId(groupId,auths);
     }
 }

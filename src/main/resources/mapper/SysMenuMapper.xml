@@ -9,6 +9,13 @@
             sm.is_group = true
             and sm.is_enabled = true
             and sm.is_deleted = FALSE
+            <if test="auths != null">
+            and(
+                <foreach collection="auths" item="auth" separator="or">
+                    sm.relation_authority like concat('%',#{auth},'%')
+                </foreach>
+            )
+            </if>
         </where>
     </select>
     <select id="findMenuListByGroupId" resultType="com.wkj.project.entity.SysMenu">
@@ -20,6 +27,13 @@
             and sm.group_menu_id = #{groupId}
             and sm.is_enabled = true
             and sm.is_deleted = FALSE
+            <if test="auths != null">
+                and(
+                <foreach collection="auths" item="auth" separator="or">
+                    sm.relation_authority like concat('%',#{auth},'%')
+                </foreach>
+                )
+            </if>
         </where>
     </select>
     <select id="query" resultType="com.wkj.project.entity.SysMenu" parameterType="com.github.pagehelper.Page">
