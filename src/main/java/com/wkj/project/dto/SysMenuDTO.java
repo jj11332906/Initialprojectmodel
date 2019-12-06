@@ -56,6 +56,12 @@ public class SysMenuDTO {
      */
     private String createDateStr;
 
+    /**
+     *关联权限
+     */
+    private String relationAuthority;
+
+
 
     public static SysMenuDTO convert(SysMenu entity,SysMenu group) {
         SysMenuDTO dto = new SysMenuDTO();

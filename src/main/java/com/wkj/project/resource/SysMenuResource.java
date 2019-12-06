@@ -100,7 +100,8 @@ public class SysMenuResource {
             String menuName,
             String menuHref,
             String description,
-            String groupId
+            String groupId,
+            String relationAuthority
     ) {
         log.info("修改菜单信息");
         log.info("id：" + id);
@@ -116,6 +117,7 @@ public class SysMenuResource {
         sysMenu.setSort(Long.valueOf(sort));
         sysMenu.setMenuName(menuName);
         sysMenu.setMenuUrl(menuHref);
+        sysMenu.setRelationAuthority(relationAuthority);
         SysMenu group = sysMenuService.findMenuById(Long.valueOf(groupId));
         Assert.notNull(group, "分组数据不能为null");
         sysMenu.setGroupMenuId(Long.valueOf(groupId));
@@ -192,7 +194,8 @@ public class SysMenuResource {
             String menuName,
             String menuHref,
             String description,
-            String groupId
+            String groupId,
+            String relationAuthority
     ) {
         log.info("添加菜单");
         log.info("sort：" + sort);
@@ -209,6 +212,7 @@ public class SysMenuResource {
         SysMenu sysMenu = new SysMenu();
         sysMenu.setMenuName(menuName);
         sysMenu.setDescription(description == null ? "" : description);
+        sysMenu.setRelationAuthority(relationAuthority);
         sysMenu.setSort(Long.valueOf(sort));
         sysMenu.setMenuUrl(menuHref == null ? "" : menuHref);
         sysMenu.setGroupMenuId(Long.valueOf(groupId));

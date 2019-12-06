@@ -59,16 +59,24 @@
                 </bean>
                 <bean class="com.wkj.project.entity.SysAuthority">
                     <property name="authority" value="articleMng"/>
-                    <property name="description" value="文章资讯管理"/>
+                    <property name="description" value="文章管理"/>
                     <property name="children">
                         <list>
                             <bean class="com.wkj.project.entity.SysAuthority">
-                                <property name="authority" value="category"/>
-                                <property name="description" value="资讯分类管理"/>
+                                <property name="authority" value="articleRead"/>
+                                <property name="description" value="文章读取"/>
                             </bean>
                             <bean class="com.wkj.project.entity.SysAuthority">
-                                <property name="authority" value="article"/>
-                                <property name="description" value="资讯管理"/>
+                                <property name="authority" value="articleDelete"/>
+                                <property name="description" value="文章删除"/>
+                            </bean>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="articleAdd"/>
+                                <property name="description" value="文章添加"/>
+                            </bean>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="articleUpdate"/>
+                                <property name="description" value="文章修改"/>
                             </bean>
                         </list>
                     </property>

@@ -42,11 +42,11 @@
         and sm.is_enabled = true and sm.is_deleted = FALSE
     </select>
     <insert id="insert" parameterType="com.wkj.project.entity.SysMenu" useGeneratedKeys="true" keyProperty="id">
-        insert into sys_menu(menu_name, menu_url,group_menu_id,is_group,description,sort,create_date,update_date,is_deleted,is_enabled)
-        values(#{menuName}, #{menuUrl}, #{groupMenuId}, #{isGroup}, #{description}, #{sort}, #{createDate}, #{updateDate}, #{isDeleted}, #{isEnabled})
+        insert into sys_menu(menu_name, menu_url,group_menu_id,is_group,description,sort,create_date,update_date,is_deleted,is_enabled,relation_authority)
+        values(#{menuName}, #{menuUrl}, #{groupMenuId}, #{isGroup}, #{description}, #{sort}, #{createDate}, #{updateDate}, #{isDeleted}, #{isEnabled},#{relationAuthority})
     </insert>
     <update id="update" parameterType="com.wkj.project.entity.SysMenu">
-        update sys_menu SET menu_name = #{menuName}, menu_url = #{menuUrl}, group_menu_id = #{groupMenuId}, is_group = #{isGroup}, description = #{description}, sort = #{sort},update_date = #{updateDate}  where id= #{id}
+        update sys_menu SET menu_name = #{menuName}, menu_url = #{menuUrl}, group_menu_id = #{groupMenuId}, is_group = #{isGroup}, description = #{description}, sort = #{sort},update_date = #{updateDate},relation_authority = #{relationAuthority}  where id= #{id}
     </update>
     <update id="delete" parameterType="com.wkj.project.entity.SysMenu">
         update sys_menu SET is_deleted = true, is_enabled = false,update_date = #{updateDate}  where id= #{id}
