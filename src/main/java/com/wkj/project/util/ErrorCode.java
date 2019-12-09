@@ -2,6 +2,8 @@ package com.wkj.project.util;
 
 public enum ErrorCode {
     LOGIN_SUCCESS("登录成功",1000),
+    LOGOUT_SUCCESS("注销成功",2000),
+    LOGOUT_FAILURE("注销失败",2001),
     LOGIN_NAME_IS_EMPTY("登录用户名为空",1),
     PWD_IS_EMPTY("登录密码为空",2),
     NOT_FUND_USER("登录用户不存在",3),

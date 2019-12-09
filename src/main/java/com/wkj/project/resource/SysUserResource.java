@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +44,10 @@ public class SysUserResource {
     HttpRequestUtil httpRequest;
     @Autowired
     TokenStore tokenStore;
+
+    @Autowired
+    ConsumerTokenServices tokenServices;
+
     @Autowired
     SysUserService sysUserService;
     @Autowired
@@ -68,7 +73,7 @@ public class SysUserResource {
     @PostMapping("login")
     @ResponseBody
     @ApiOperation(value = "登录")
-    public Result post(
+    public Result login(
             String username,
             String password
     ) {
@@ -98,6 +103,21 @@ public class SysUserResource {
         data.put("username",username);
         data.put("authority",auth);
         return Result.getResult(ErrorCode.LOGIN_SUCCESS, data);
+    }
+
+
+    @DeleteMapping("logout")
+    @ResponseBody
+    @ApiOperation(value = "注销")
+    public Result logout(
+            String access_token
+    ) {
+        log.info("注销access_token："+access_token);
+        if( tokenServices.revokeToken(access_token)){
+            return Result.getResult(ErrorCode.LOGOUT_SUCCESS, "注销成功");
+        }else{
+            return Result.getResult(ErrorCode.LOGOUT_FAILURE, "注销失败");
+        }
     }
 
 
