@@ -4,6 +4,8 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.Page;
+import com.wkj.project.dto.SysAuthorityDTO;
+import com.wkj.project.dto.SysRoleDTO;
 import com.wkj.project.dto.SysUserDTO;
 import com.wkj.project.entity.RelUserRole;
 import com.wkj.project.entity.SysUser;
@@ -83,7 +85,18 @@ public class SysUserResource {
         if (data.get("access_token") == null) {
             return Result.getResult(ErrorCode.PWD_NOT_MATCH);
         }
-
+        String access_token = data.get("access_token").toString();
+        SysUser sysUser = oauth2UtilService.getUserByToken(access_token);
+        SysUserDTO dto = sysUserService.convertUserToDTO(sysUser);
+        List<SysRoleDTO> sysRoleDTOS = dto.getSysRoleDTOS();
+        SysRoleDTO sysRoleDTO = sysRoleDTOS.get(0);
+        List<SysAuthorityDTO> authorityDTOS = sysRoleDTO.getAuthorityDTOS();
+        String auth = "";
+        for (SysAuthorityDTO authorityDTO : authorityDTOS){
+            auth += authorityDTO.getAuthority()+",";
+        }
+        data.put("username",username);
+        data.put("authority",auth);
         return Result.getResult(ErrorCode.LOGIN_SUCCESS, data);
     }
 
