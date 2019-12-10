@@ -36,7 +36,7 @@
         update video SET video_title = #{videoTitle}, video_path = #{videoPath}, video_mp5 = #{videoMp5}, creator = #{creator}, update_date = #{updateDate} where id= #{id}
     </update>
     <update id="delete" parameterType="com.wkj.project.entity.Article">
-        update article SET is_deleted = true, is_enabled = false,update_date = #{updateDate}  where id= #{id}
+        update video SET is_deleted = true, is_enabled = false,update_date = #{updateDate}  where id= #{id}
     </update>
     <sql id="common_where_if">
         <if test="title != null and title != ''">
