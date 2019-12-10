@@ -81,6 +81,30 @@
                         </list>
                     </property>
                 </bean>
+                <bean class="com.wkj.project.entity.SysAuthority">
+                    <property name="authority" value="videoMng"/>
+                    <property name="description" value="视频管理"/>
+                    <property name="children">
+                        <list>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="videoRead"/>
+                                <property name="description" value="视频读取"/>
+                            </bean>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="articleDelete"/>
+                                <property name="description" value="文章删除"/>
+                            </bean>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="articleAdd"/>
+                                <property name="description" value="文章添加"/>
+                            </bean>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="articleUpdate"/>
+                                <property name="description" value="文章修改"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
