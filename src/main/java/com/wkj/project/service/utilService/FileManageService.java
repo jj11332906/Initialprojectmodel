@@ -44,12 +44,14 @@ public class FileManageService {
         if (param.getTaskId() == null || "".equals(param.getTaskId())) {
             param.setTaskId(UUID.randomUUID().toString());
         }
+        log.info(JSONUtil.parseObj(param).toString());
         /**
          * basePath是我的路径，可以替换为你的
          * 1：原文件名改为UUID
          * 2：创建临时文件，和源文件一个路径
          * 3：如果文件路径不存在重新创建
          */
+
         String fileName = param.getFile().getOriginalFilename();
         //fileName.substring(fileName.lastIndexOf(".")) 这个地方可以直接写死 写成你的上传路径
         String tempFileName = param.getTaskId() + fileName.substring(fileName.lastIndexOf(".")) + "_tmp";
@@ -81,6 +83,7 @@ public class FileManageService {
         if (isComplete) {
             renameFile(tempFile, fileName);
         }
+
         return param.getTaskId();
     }
 
@@ -118,7 +121,7 @@ public class FileManageService {
         confAccessFile.write(Byte.MAX_VALUE);
         byte[] completeStatusList = FileUtils.readFileToByteArray(confFile);
         byte isComplete = Byte.MAX_VALUE;
-        log.info(JSONUtil.parseObj(param).toString()+",\ncompleteStatusList.length:"+completeStatusList.length+",isComplete:"+isComplete+",Byte.MAX_VALUE:"+Byte.MAX_VALUE);
+//        log.info(JSONUtil.parseObj(param).toString()+",\ncompleteStatusList.length:"+completeStatusList.length+",isComplete:"+isComplete+",Byte.MAX_VALUE:"+Byte.MAX_VALUE);
 
         //这一段逻辑有点复杂，看的时候思考了好久，创建conf文件文件长度为总分片数，每上传一个分块即向conf文件中写入一个127，那么没上传的位置就是默认的0,已上传的就是Byte.MAX_VALUE 127
         for (int i = 0; i < completeStatusList.length && isComplete == Byte.MAX_VALUE; i++) {

@@ -10,6 +10,95 @@
         <property name="children">
             <list>
                 <bean class="com.wkj.project.entity.SysAuthority">
+                    <property name="authority" value="test1"/>
+                    <property name="description" value="大坝总览"/>
+                    <property name="children">
+                        <list>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="test11"/>
+                                <property name="description" value="档案资料中心"/>
+                            </bean>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="test12"/>
+                                <property name="description" value="检测数据实时状态"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.wkj.project.entity.SysAuthority">
+                    <property name="authority" value="test2"/>
+                    <property name="description" value="大坝安全检测"/>
+                    <property name="children">
+                        <list>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="test21"/>
+                                <property name="description" value="大坝安全检测设计"/>
+                            </bean>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="test22"/>
+                                <property name="description" value="大坝安全检测施工"/>
+                            </bean>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="test23"/>
+                                <property name="description" value="运营期观测及资料整编分析"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.wkj.project.entity.SysAuthority">
+                    <property name="authority" value="test3"/>
+                    <property name="description" value="大坝安全鉴定"/>
+                </bean>
+                <bean class="com.wkj.project.entity.SysAuthority">
+                    <property name="authority" value="test4"/>
+                    <property name="description" value="小型病险水库鉴定成果"/>
+                </bean>
+                <bean class="com.wkj.project.entity.SysAuthority">
+                    <property name="authority" value="test5"/>
+                    <property name="description" value="水库大坝降等技术审查"/>
+                </bean>
+                <bean class="com.wkj.project.entity.SysAuthority">
+                    <property name="authority" value="test6"/>
+                    <property name="description" value="病险水库除险加固设计方案及技术审查"/>
+                </bean>
+                <bean class="com.wkj.project.entity.SysAuthority">
+                    <property name="authority" value="test7"/>
+                    <property name="description" value="防洪评价技术审查"/>
+                </bean>
+                <bean class="com.wkj.project.entity.SysAuthority">
+                    <property name="authority" value="test8"/>
+                    <property name="description" value="水库大坝安全评价"/>
+                </bean>
+                <bean class="com.wkj.project.entity.SysAuthority">
+                    <property name="authority" value="test9"/>
+                    <property name="description" value="科技档案管理"/>
+                </bean>
+                <bean class="com.wkj.project.entity.SysAuthority">
+                    <property name="authority" value="test10"/>
+                    <property name="description" value="合同管理"/>
+                </bean>
+                <bean class="com.wkj.project.entity.SysAuthority">
+                    <property name="authority" value="test11"/>
+                    <property name="description" value="系统管理"/>
+                    <property name="children">
+                        <list>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="test111"/>
+                                <property name="description" value="角色管理"/>
+                            </bean>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="test112"/>
+                                <property name="description" value="权限管理"/>
+                            </bean>
+                            <bean class="com.wkj.project.entity.SysAuthority">
+                                <property name="authority" value="test113"/>
+                                <property name="description" value="配置管理"/>
+                            </bean>
+
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.wkj.project.entity.SysAuthority">
                     <property name="authority" value="userAccountMng"/>
                     <property name="description" value="账号管理"/>
                     <property name="children">
