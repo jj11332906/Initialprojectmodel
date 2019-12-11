@@ -81,7 +81,7 @@ public class FileManageService {
         if (isComplete) {
             renameFile(tempFile, fileName);
         }
-        return "";
+        return param.getTaskId();
     }
 
     /**
