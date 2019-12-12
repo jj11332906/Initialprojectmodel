@@ -26,6 +26,9 @@ public class FileManageService {
 
     /**
      * 分块上传
+     *
+     * wkj增加断点续传功能，在收到分块的时候先判断该分块是否已接收，如已接收则不进行下面的处理，通过每个文件单独的conf文件来判断
+     *
      * 第一步：获取RandomAccessFile,随机访问文件类的对象
      * 第二步：调用RandomAccessFile的getChannel()方法，打开文件通道 FileChannel
      * 第三步：获取当前是第几个分块，计算文件的最后偏移量
@@ -56,35 +59,45 @@ public class FileManageService {
         //fileName.substring(fileName.lastIndexOf(".")) 这个地方可以直接写死 写成你的上传路径
         String tempFileName = param.getTaskId() + fileName.substring(fileName.lastIndexOf(".")) + "_tmp";
         String filePath = basePath + "original";
-        File fileDir = new File(filePath);
-        if (!fileDir.exists()) {
-            fileDir.mkdirs();
+
+
+        //todo 判断该块是否已上传
+        boolean isUpload = analysisChunkIsUpload(param,fileName.substring(0, fileName.lastIndexOf(".")),filePath);
+
+        if(!isUpload) {
+            File fileDir = new File(filePath);
+            if (!fileDir.exists()) {
+                fileDir.mkdirs();
+            }
+
+            File tempFile = new File(filePath, tempFileName);
+            //第一步
+            RandomAccessFile raf = new RandomAccessFile(tempFile, "rw");
+            //第二步
+            FileChannel fileChannel = raf.getChannel();
+            //第三步
+            long offset = param.getChunk() * param.getSize();
+            //第四步
+            byte[] fileData = param.getFile().getBytes();
+            //第五步
+            MappedByteBuffer mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_WRITE, offset, fileData.length);
+            //第六步
+            mappedByteBuffer.put(fileData);
+            //第七步
+            FileUtil.freeMappedByteBuffer(mappedByteBuffer);
+            fileChannel.close();
+            raf.close();
+            //第八步 检查文件是否全部完成上传
+            boolean isComplete = checkUploadStatus(param, fileName.substring(0, fileName.lastIndexOf(".")), filePath);
+            if (isComplete) {
+                renameFile(tempFile, fileName);
+            }
+
+            return param.getChunk()+"已处理";
+        }else{
+            return param.getChunk()+"已上传";
         }
 
-        File tempFile = new File(filePath, tempFileName);
-        //第一步
-        RandomAccessFile raf = new RandomAccessFile(tempFile, "rw");
-        //第二步
-        FileChannel fileChannel = raf.getChannel();
-        //第三步
-        long offset = param.getChunk() * param.getSize();
-        //第四步
-        byte[] fileData = param.getFile().getBytes();
-        //第五步
-        MappedByteBuffer mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_WRITE, offset, fileData.length);
-        //第六步
-        mappedByteBuffer.put(fileData);
-        //第七步
-        FileUtil.freeMappedByteBuffer(mappedByteBuffer);
-        fileChannel.close();
-        raf.close();
-        //第八步
-        boolean isComplete = checkUploadStatus(param, fileName.substring(0,fileName.lastIndexOf(".")), filePath);
-        if (isComplete) {
-            renameFile(tempFile, fileName);
-        }
-
-        return param.getTaskId();
     }
 
     /**
@@ -104,7 +117,29 @@ public class FileManageService {
         //修改文件名
         return toBeRenamed.renameTo(newFile);
     }
+    /**
+     * 检查文件上传进度
+     *
+     * @return
+     */
+    public boolean analysisChunkIsUpload(MultipartFileParamForm param, String fileName, String filePath) throws IOException {
+        File confFile = new File(filePath, fileName + ".conf");
 
+        if (!confFile.exists()) {
+           log.info("文件不存在！");
+           return false;
+        } else {
+            log.info("文件存在！");
+            byte[] completeStatusList = FileUtils.readFileToByteArray(confFile);
+            int idx = param.getChunk();
+
+            if(completeStatusList[idx]==Byte.MAX_VALUE){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
     /**
      * 检查文件上传进度
      *
