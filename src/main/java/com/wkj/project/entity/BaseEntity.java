@@ -2,10 +2,11 @@ package com.wkj.project.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class BaseEntity {
+public class BaseEntity implements Serializable {
     private Boolean isDeleted;
     private Boolean isEnabled;
     private Date createDate;
