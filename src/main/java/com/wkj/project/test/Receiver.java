@@ -12,6 +12,6 @@ public class Receiver {
 
     @RabbitHandler
     public void process(String hello){
-      log.info("Receiver : " + hello);
+      log.info("Direct Mode  Receiver : " + hello);
     }
 }
