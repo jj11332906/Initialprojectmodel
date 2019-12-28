@@ -15,7 +15,7 @@ public class Sender {
     private AmqpTemplate rabbitmqTemplate;
 
     public void send(){
-        String context = "hello" + new Date();
+        String context = "Direct Mode " + new Date();
         log.info("Sender : "+context);
         rabbitmqTemplate.convertAndSend("hello",context);
     }
