@@ -50,6 +50,22 @@ spring:
     host: 127.0.0.1
     port: 25000
     database: 13
+  rabbitmq:
+    username: admin
+    password: 1qaz2wsx
+    port: 5672
+    addresses: 127.0.0.1
+    publisher-returns: true
+    publisher-confirms: true
+    listener:
+      simple:
+        concurrency: 2
+        max-concurrency: 2
+        acknowledge-mode: manual
+      direct:
+        acknowledge-mode: manual
+      template:
+        mandatory:  true
 # pagehelper
 pagehelper:
     helper-dialect: mysql
