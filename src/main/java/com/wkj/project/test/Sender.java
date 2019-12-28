@@ -14,9 +14,17 @@ public class Sender {
     @Autowired
     private AmqpTemplate rabbitmqTemplate;
 
+    //todo 简单模式
     public void send(){
         String context = "Direct Mode " + new Date();
         log.info("Sender : "+context);
         rabbitmqTemplate.convertAndSend("hello",context);
+    }
+
+    //todo 工作模式
+    public void send(int i){
+        String context = "工作 Mode ,spring boot neo queue:" + i;
+        log.info("Sender : "+context);
+        rabbitmqTemplate.convertAndSend("neo",context);
     }
 }

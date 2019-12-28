@@ -6,13 +6,13 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
-@RabbitListener(queues = "hello")
+@RabbitListener(queues = "neo")
 @Slf4j
-public class Receiver {
+public class NeoReceiver2 {
 
-    //todo 简单模式
+    //todo 工作模式
     @RabbitHandler
-    public void process(String hello){
-      log.info("Direct Mode  Receiver : " + hello);
+    public void process(String hello) {
+        log.info("工作 Mode  Receiver2 : " + hello);
     }
 }

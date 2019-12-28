@@ -48,10 +48,19 @@ public class TestResource {
         return ResponseEntity.ok(msg);
     }
 
+
     @PostMapping("helloRabbit")
-    @ApiOperation(value="helloRabbit")
+    @ApiOperation(value="rabbitmq简单模式")
     public void helloRabbit() throws Exception{
         sender.send();
+    }
+
+    @PostMapping("neoRabbit")
+    @ApiOperation(value="rabbitmq工作模式")
+    public void neoRabbit() throws Exception{
+        for (int i=0;i<10;i++) {
+            sender.send(i);
+        }
     }
 
 
