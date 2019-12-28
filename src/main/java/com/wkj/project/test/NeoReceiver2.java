@@ -6,7 +6,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
-@RabbitListener(queues = "neo")
+//@RabbitListener(queues = "neo")
 @Slf4j
 public class NeoReceiver2 {
 

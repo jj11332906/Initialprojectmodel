@@ -58,15 +58,16 @@ spring:
     virtual-host: 127.0.0.1 #这个参数不设置回报错 ShutdownSignalException
 #    publisher-returns: true
 #    publisher-confirms: true
-#    listener:
-#      simple:
-#        concurrency: 2
-#        max-concurrency: 2
-#        acknowledge-mode: auto
-#      direct:
-#        acknowledge-mode: auto
-#      template:
-#        mandatory:  true
+    listener:
+      simple:
+        concurrency: 1
+        max-concurrency: 1
+        acknowledge-mode: manual
+      direct:
+        acknowledge-mode: manual
+      template:
+        mandatory:  true
+
 # pagehelper
 pagehelper:
     helper-dialect: mysql
