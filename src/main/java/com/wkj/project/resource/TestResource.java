@@ -1,5 +1,6 @@
 package com.wkj.project.resource;
 
+import com.wkj.project.test.FanoutSender;
 import com.wkj.project.test.Sender;
 import com.wkj.project.util.HttpRequestUtil;
 import io.swagger.annotations.Api;
@@ -23,6 +24,8 @@ public class TestResource {
 
     @Autowired
     Sender sender;
+    @Autowired
+    FanoutSender fanoutSender;
 
     @GetMapping("/product/{id}")
     @ApiOperation(value = "getProduct")
@@ -61,6 +64,12 @@ public class TestResource {
         for (int i=0;i<10;i++) {
             sender.send(i);
         }
+    }
+
+    @PostMapping("fanoutSender")
+    @ApiOperation(value="rabbitmq发布订阅模式")
+    public void fanoutSender() throws Exception{
+       fanoutSender.send();
     }
 
 

@@ -1,9 +1,7 @@
 package com.wkj.project.config.rabbitmq;
 
 import com.rabbitmq.client.Channel;
-import org.springframework.amqp.core.AcknowledgeMode;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
@@ -57,7 +55,7 @@ public class RabbitMqConfig {
         return container;
     }
     /**
-     * 工作模式 ack机制1
+     * 工作模式 ack机制2
      * @return
      */
     @Bean
@@ -78,5 +76,47 @@ public class RabbitMqConfig {
             }
         });
         return container;
+    }
+
+
+    /**
+     * 发布订阅模式，需要用到交换机fanoutExchange了,还要创建消息生产者 FanoutSender,还需要3个消息消费者FanoutReceiveA，FanoutReceiveB，FanoutReceiveC
+     * @return
+     */
+    @Bean
+    public Queue AMessage() {
+        return new Queue("fanout.A");
+    }
+
+    @Bean
+    public Queue BMessage() {
+        return new Queue("fanout.B");
+    }
+
+    @Bean
+    public Queue CMessage() {
+        return new Queue("fanout.C");
+    }
+
+    //todo 交换机
+    @Bean
+    FanoutExchange fanoutExchange() {
+        return new FanoutExchange("fanoutExchange");
+    }
+
+    //todo 将队列绑定到交换机上
+    @Bean
+    Binding bindingExchangeA(Queue AMessage, FanoutExchange fanoutExchange) {
+        return BindingBuilder.bind(AMessage).to(fanoutExchange);
+    }
+
+    @Bean
+    Binding bindingExchangeB(Queue BMessage, FanoutExchange fanoutExchange) {
+        return BindingBuilder.bind(BMessage).to(fanoutExchange);
+    }
+
+    @Bean
+    Binding bindingExchangeC(Queue CMessage, FanoutExchange fanoutExchange) {
+        return BindingBuilder.bind(CMessage).to(fanoutExchange);
     }
 }
