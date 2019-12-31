@@ -179,7 +179,7 @@ public class HttpRequestUtil {
         HttpGet httpGet = new HttpGet(url);
         httpGet.setHeader("Content-type", "application/json");
         httpGet.setHeader("DataEncoding", "UTF-8");
-        httpGet.setHeader("token", token);
+//        httpGet.setHeader("token", token);
         RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(1800000).setConnectionRequestTimeout(1800000).setSocketTimeout(3600000).build();
         httpGet.setConfig(requestConfig);
 
@@ -236,7 +236,9 @@ public class HttpRequestUtil {
 
         CloseableHttpResponse httpResponse = null;
         try {
-            httpPost.setEntity(new StringEntity(jsonStr));
+            if(jsonStr!=null) {
+                httpPost.setEntity(new StringEntity(jsonStr));
+            }
             httpResponse = httpClient.execute(httpPost);
             HttpEntity entity = httpResponse.getEntity();
             String result = EntityUtils.toString(entity);

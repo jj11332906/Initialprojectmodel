@@ -1,6 +1,5 @@
 package com.wkj.project.config.rabbitmq;
 
-import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
@@ -11,6 +10,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMqConfig {
+
+    String message = "topic.A";
+    String messages = "topic.B";
+
 
     @Autowired
     ConnectionFactory connectionFactory;
@@ -119,4 +122,40 @@ public class RabbitMqConfig {
     Binding bindingExchangeC(Queue CMessage, FanoutExchange fanoutExchange) {
         return BindingBuilder.bind(CMessage).to(fanoutExchange);
     }
+
+
+    /**
+     * 路由模式和主题模式
+     * 主题模式和路由模式比较相似，一起演示，上面定义了topic.A，topic.B就是为了这个模式用的
+     */
+    @Bean
+    public Queue queueMessage() {
+        return new Queue(message);
+    }
+
+    @Bean
+    public Queue queueMessages() {
+        return new Queue(messages);
+    }
+
+    //todo 新建一个交换机
+    @Bean
+    TopicExchange exchange() {
+        return new TopicExchange("topicExchange");
+    }
+
+
+    //todo 绑定队列到交换机上,路由模式，需要完整匹配topic.message
+    @Bean
+    Binding bindingExchangeMessage(Queue queueMessage, TopicExchange exchange) {
+        return BindingBuilder.bind(queueMessage).to(exchange).with("topic.message");
+    }
+
+    //todo topic模式，前缀匹配到topic.即可接受
+    @Bean
+    Binding bindingExchangeMessages(Queue queueMessages, TopicExchange exchange) {
+        return BindingBuilder.bind(queueMessages).to(exchange).with("topic.#");
+    }
+
+
 }
