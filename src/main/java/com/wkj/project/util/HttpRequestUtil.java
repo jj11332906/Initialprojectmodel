@@ -269,6 +269,53 @@ public class HttpRequestUtil {
         return null;
     }
 
+
+    public String doPost2(String url, String jsonStr,String signature) {
+
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost(url);
+        RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(1800000).setConnectionRequestTimeout(1800000).setSocketTimeout(3600000).build();
+        httpPost.setConfig(requestConfig);
+        httpPost.setHeader("Content-type", "application/json");
+        httpPost.setHeader("DataEncoding", "UTF-8");
+        httpPost.setHeader("Signature", signature);
+
+
+        CloseableHttpResponse httpResponse = null;
+        try {
+            if(jsonStr!=null) {
+                httpPost.setEntity(new StringEntity(jsonStr));
+            }
+            httpResponse = httpClient.execute(httpPost);
+            HttpEntity entity = httpResponse.getEntity();
+            String result = EntityUtils.toString(entity);
+            return result;
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            if (httpResponse != null) {
+                try {
+                    httpResponse.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            if (null != httpClient) {
+                try {
+                    httpClient.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
     /**
      * 原生字符串发送put请求
      *

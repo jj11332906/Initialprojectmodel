@@ -1,5 +1,6 @@
 package com.wkj.project.resource;
 
+import cn.hutool.json.JSONObject;
 import com.wkj.project.test.FanoutSender;
 import com.wkj.project.test.Sender;
 import com.wkj.project.test.TopicSend;
@@ -54,6 +55,21 @@ public class TestResource {
         String msg = httpRequestUtil.doGet("", null);
         return ResponseEntity.ok(msg);
     }
+
+    @GetMapping("testHttpPost")
+    @ApiOperation(value = "testHttpPost")
+    public ResponseEntity<String> testHttpPost(
+    ) {
+        String signature = "vy1kmoQYnbq6cJd8JKK7ddPCY9qRvJ5Z8FZNbtIWmB1OjXYMN7Kx19nefdLiOYLT";
+        JSONObject param = new JSONObject();
+        param.put("shopSn","01001");
+        param.put("productCode","35B9867357003");
+        String msg = httpRequestUtil.doPost2("http://10.0.1.37:1031/api/SaleProm/GetPromList", param.toString(),signature);
+        log.info(msg);
+        return ResponseEntity.ok(msg);
+    }
+
+
 
 
     @PostMapping("helloRabbit")
